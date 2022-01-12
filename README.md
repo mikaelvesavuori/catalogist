@@ -330,7 +330,7 @@ Because there is a bit of customization allowed, `catalogist` will only drop unk
 ### Rules and limits
 
 - All POST request input is sanitized.
-- The regex pattern that is most often used is `/[^a-z0-9@åäöøáéíóúñü\.\w\d\-_]/`; for values a few more characters (parentheses, brackets, spaces etc.) are allowed too.
+- The regex pattern that is most often used is `/[^a-z0-9@åäöøáéíóúñü\.\-_]/`; for values a few more characters (parentheses, brackets, spaces etc.) are allowed too.
 - Custom key names (in the `support` and/or `metadata` fields) may be 50 characters long.
 - Custom values (in the `support` and/or `metadata` fields) may be 500 characters long.
 - The maximum ingoing payload size must be less than 10000 characters when stringified.

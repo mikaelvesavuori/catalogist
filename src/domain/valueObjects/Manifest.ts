@@ -215,8 +215,8 @@ export class ManifestConstructor {
    */
   private sanitizeString(str: string, isValue = false) {
     const maxLength = isValue ? 500 : 50;
-    const regexKeys = new RegExp(/[^a-z0-9@åäöøáéíóúñü\.\w\d\-_]/gim);
-    const regexValues = new RegExp(/[^a-z0-9()\[\]åäöøáéíóúñü\w\d\s\-_]/gim);
+    const regexKeys = new RegExp(/[^a-z0-9@åäöøáéíóúñü\-_]/gim);
+    const regexValues = new RegExp(/[^a-z0-9()\[\]åäöøáéíóúñü\.\s\-_]/gim);
 
     return (isValue ? str.replace(regexValues, '') : str.replace(regexKeys, ''))
       .trim()

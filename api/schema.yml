@@ -40,7 +40,7 @@ paths:
             type: string
             minLength: 1
             maxLength: 50
-            pattern: /[^a-z0-9@åäöøáéíóúñü\.\w\d\-_]/
+            pattern: /[^a-z0-9@åäöøáéíóúñü\.\-_]/
         - in: query
           name: serviceName
           description: What are the service name(s)?
@@ -49,7 +49,7 @@ paths:
             type: string
             minLength: 1
             maxLength: 500
-            pattern: /[^a-z0-9@åäöøáéíóúñü\.\w\d\-_]/
+            pattern: /[^a-z0-9@åäöøáéíóúñü\.\-_]/
       security:
         - apiKey: []
 
@@ -110,61 +110,61 @@ components:
           description: The service name.
           minLength: 1
           maxLength: 50
-          pattern: /[^a-z0-9@åäöøáéíóúñü\.\w\d\-_]/
+          pattern: /[^a-z0-9@åäöøáéíóúñü\.\-_]/
         serviceType:
           type: string
           description: Describes which type of solution this is.
           minLength: 1
           maxLength: 50
-          pattern: /[^a-z0-9@åäöøáéíóúñü\.\w\d\-_]/
+          pattern: /[^a-z0-9@åäöøáéíóúñü\.\-_]/
         lifecycleStage:
           type: string
           description: Describes which stage of the lifecycle this solution is in. Defaults to "production".
           minLength: 1
           maxLength: 50
-          pattern: /[^a-z0-9@åäöøáéíóúñü\.\w\d\-_]/
+          pattern: /[^a-z0-9@åäöøáéíóúñü\.\-_]/
         version:
           type: string
           description: The version of the service.
           minLength: 1
           maxLength: 50
-          pattern: /[^a-z0-9@åäöøáéíóúñü\.\w\d\-_]/
+          pattern: /[^a-z0-9@åäöøáéíóúñü\.\-_]/
         description:
           type: string
           description: Description of the service.
           minLength: 1
           maxLength: 50
-          pattern: /[^a-z0-9@åäöøáéíóúñü\.\w\d\-_]/
+          pattern: /[^a-z0-9@åäöøáéíóúñü\.\-_]/
         responsible:
           type: string
           description: Who is responsible for the solution?
           minLength: 1
           maxLength: 50
-          pattern: /[^a-z0-9@åäöøáéíóúñü\.\w\d\-_]/
+          pattern: /[^a-z0-9@åäöøáéíóúñü\.\-_]/
         team:
           type: string
           description: The team that owns this solution.
           minLength: 1
           maxLength: 50
-          pattern: /[^a-z0-9@åäöøáéíóúñü\.\w\d\-_]/
+          pattern: /[^a-z0-9@åäöøáéíóúñü\.\-_]/
         system:
           type: string
           description: The system this solution is part of.
           minLength: 1
           maxLength: 50
-          pattern: /[^a-z0-9@åäöøáéíóúñü\.\w\d\-_]/
+          pattern: /[^a-z0-9@åäöøáéíóúñü\.\-_]/
         domain:
           type: string
           description: The domain this solution/system is part of.
           minLength: 1
           maxLength: 50
-          pattern: /[^a-z0-9@åäöøáéíóúñü\.\w\d\-_]/
+          pattern: /[^a-z0-9@åäöøáéíóúñü\.\-_]/
         dataSensitivity:
           type: string
           description: The overall data sensitivity of this solution.
           minLength: 1
           maxLength: 50
-          pattern: /[^a-z0-9@åäöøáéíóúñü\.\w\d\-_]/
+          pattern: /[^a-z0-9@åäöøáéíóúñü\.\-_]/
         tags:
           type: array
           maxItems: 10
@@ -172,7 +172,7 @@ components:
             type: string
             minLength: 1
             maxLength: 50
-            pattern: /[^a-z0-9@åäöøáéíóúñü\.\w\d\-_]/
+            pattern: /[^a-z0-9@åäöøáéíóúñü\.\-_]/
     Relations:
       type: array
       maxItems: 100
@@ -180,14 +180,14 @@ components:
         type: string
         minLength: 1
         maxLength: 50
-        pattern: /[^a-z0-9@åäöøáéíóúñü\.\w\d\-_]/
+        pattern: /[^a-z0-9@åäöøáéíóúñü\.\-_]/
     Support:
       type: object
       additionalProperties:
         type: string
         minLength: 1
         maxLength: 50
-        pattern: /[^a-z0-9@åäöøáéíóúñü\.\w\d\-_]/
+        pattern: /[^a-z0-9@åäöøáéíóúñü\.\-_]/
     Slo:
       type: array
       maxItems: 10
@@ -201,32 +201,32 @@ components:
         type: string
         minLength: 1
         maxLength: 50
-        pattern: /[^a-z0-9@åäöøáéíóúñü\.\w\d\-_]/
+        pattern: /[^a-z0-9@åäöøáéíóúñü\.\-_]/
       properties:
         description:
           type: string
           description: Description of the service-level objective.
           minLength: 1
           maxLength: 50
-          pattern: /[^a-z0-9@åäöøáéíóúñü\.\w\d\-_]/
+          pattern: /[^a-z0-9@åäöøáéíóúñü\.\-_]/
         level:
           type: string
           description: What is the level of the SLO?
           minLength: 1
           maxLength: 50
-          pattern: /[^a-z0-9@åäöøáéíóúñü\.\w\d\-_]/
+          pattern: /[^a-z0-9@åäöøáéíóúñü\.\-_]/
         percentile:
           type: string
           description: The percentile to represent this SLO.
           minLength: 1
           maxLength: 50
-          pattern: /[^a-z0-9@åäöøáéíóúñü\.\w\d\-_]/
+          pattern: /[^a-z0-9@åäöøáéíóúñü\.\-_]/
         maxLatency:
           type: string
           description: Max latency of the SLO.
           minLength: 1
           maxLength: 50
-          pattern: /[^a-z0-9@åäöøáéíóúñü\.\w\d\-_]/
+          pattern: /[^a-z0-9@åäöøáéíóúñü\.\-_]/
     Api:
       type: array
       maxItems: 10
@@ -238,21 +238,21 @@ components:
         type: string
         minLength: 1
         maxLength: 50
-        pattern: /[^a-z0-9@åäöøáéíóúñü\.\w\d\-_]/
+        pattern: /[^a-z0-9@åäöøáéíóúñü\.\-_]/
       properties:
         serviceName:
           type: string
           description: The name of the API.
           minLength: 1
           maxLength: 50
-          pattern: /[^a-z0-9@åäöøáéíóúñü\.\w\d\-_]/
+          pattern: /[^a-z0-9@åäöøáéíóúñü\.\-_]/
     Metadata:
       type: object
       additionalProperties:
         type: string
         minLength: 1
         maxLength: 50
-        pattern: /[^a-z0-9@åäöøáéíóúñü\.\w\d\-_]/
+        pattern: /[^a-z0-9@åäöøáéíóúñü\.\-_]/
     Links:
       type: array
       maxItems: 10
@@ -271,19 +271,19 @@ components:
           description: URL for the link.
           minLength: 1
           maxLength: 50
-          pattern: /[^a-z0-9@åäöøáéíóúñü\.\w\d\-_]/
+          pattern: /[^a-z0-9@åäöøáéíóúñü\.\-_]/
         title:
           type: string
           description: Title and description of the link.
           minLength: 1
           maxLength: 50
-          pattern: /[^a-z0-9@åäöøáéíóúñü\.\w\d\-_]/
+          pattern: /[^a-z0-9@åäöøáéíóúñü\.\-_]/
         icon:
           type: string
           description: What type of icon should represent this?
           minLength: 1
           maxLength: 50
-          pattern: /[^a-z0-9@åäöøáéíóúñü\.\w\d\-_]/
+          pattern: /[^a-z0-9@åäöøáéíóúñü\.\-_]/
 
   requestBodies:
     CreateRecord:
