@@ -325,7 +325,7 @@ There are several levels at which any input data is sanitized and validated.
 1. **API Gateway validator**: AWS API Gateway is set up to only allow payloads that correspond to the JSON Schema-based validator. See `api/create.validator.json`.
 2. **Code-level validation**: Input data is processed when `catalogist` attempts to form input data into a Manifest "value object". During that step we coerce the input into a new object (stringify, then parse as a new object), drop unknown keys, check the size of the remaining object, and also check for missing information. See `src/domain/valueObjects/Manifest.ts`.
 
-Because there is a bit of customization allowed, `catalogist` will only drop unknown keys from the root object and from within the `spec`, `slo`, and `links` arrays.
+Because there is a bit of customization allowed, `catalogist` will only drop unknown keys from the root object and from within the `spec` object.
 
 ### Rules and limits
 
