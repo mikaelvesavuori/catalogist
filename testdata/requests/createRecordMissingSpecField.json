@@ -1,0 +1,16 @@
+{
+  "support": {},
+  "slo": [
+    {
+      "description": "asdf",
+      "asdf": "1234"
+    }
+  ],
+  "api": [],
+  "metadata": {},
+  "links": [
+    {
+      "something": "else"
+    }
+  ]
+}

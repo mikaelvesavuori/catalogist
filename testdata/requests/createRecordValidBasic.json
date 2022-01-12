@@ -1,0 +1,21 @@
+{
+  "spec": {
+    "serviceName": "my-service",
+    "lifecycleStage": "asdf",
+    "tags": ["typescript", "backend"]
+  },
+  "relations": ["some-service", "my-api"],
+  "support": {},
+  "slo": [
+    {
+      "description": "asdf",
+      "asdf": "1234"
+    }
+  ],
+  "api": [],
+  "links": [
+    {
+      "something": "else"
+    }
+  ]
+}

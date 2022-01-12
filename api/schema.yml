@@ -1,0 +1,352 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Catalogist
+  description: Catalogist is the easy way to catalog and make your software and (micro)services visible to your organization in a lightweight and developer-friendly way.
+
+servers:
+  - url: https://RANDOM.execute-api.REGION.amazonaws.com/shared/
+    description: API server
+
+paths:
+  /records:
+    get:
+      description: Get records
+      responses:
+        default:
+          $ref: '#/components/responses/401'
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Manifest'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '406':
+          $ref: '#/components/responses/406'
+        '429':
+          $ref: '#/components/responses/429'
+      parameters:
+        - in: query
+          name: lifecycleStage
+          description: What lifecycleStage should be used?
+          required: false
+          schema:
+            type: string
+            minLength: 1
+            maxLength: 50
+            pattern: /[^a-z0-9@åäöøáéíóúñü\.\w\d\-_]/
+        - in: query
+          name: serviceName
+          description: What are the service name(s)?
+          required: false
+          schema:
+            type: string
+            minLength: 1
+            maxLength: 500
+            pattern: /[^a-z0-9@åäöøáéíóúñü\.\w\d\-_]/
+      security:
+        - apiKey: []
+
+  /record:
+    post:
+      description: Create record
+      responses:
+        default:
+          $ref: '#/components/responses/403'
+        '204':
+          description: Successful response
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '406':
+          $ref: '#/components/responses/406'
+        '429':
+          $ref: '#/components/responses/429'
+      requestBody:
+        $ref: '#/components/requestBodies/CreateRecord'
+      security:
+        - apiKey: []
+
+components:
+  securitySchemes:
+    apiKey:
+      type: apiKey
+      name: Authorization
+      in: header
+  schemas:
+    Manifest:
+      type: object
+      additionalProperties: false
+      properties:
+        spec:
+          $ref: '#/components/schemas/Spec'
+        support:
+          $ref: '#/components/schemas/Support'
+        slo:
+          $ref: '#/components/schemas/Slo'
+        api:
+          $ref: '#/components/schemas/Api'
+        metadata:
+          $ref: '#/components/schemas/Metadata'
+        links:
+          $ref: '#/components/schemas/Links'
+    Spec:
+      type: object
+      required:
+        - "serviceName"
+      additionalProperties: false
+      properties:
+        serviceName:
+          type: string
+          description: The service name.
+          minLength: 1
+          maxLength: 50
+          pattern: /[^a-z0-9@åäöøáéíóúñü\.\w\d\-_]/
+        serviceType:
+          type: string
+          description: Describes which type of solution this is.
+          minLength: 1
+          maxLength: 50
+          pattern: /[^a-z0-9@åäöøáéíóúñü\.\w\d\-_]/
+        lifecycleStage:
+          type: string
+          description: Describes which stage of the lifecycle this solution is in. Defaults to "production".
+          minLength: 1
+          maxLength: 50
+          pattern: /[^a-z0-9@åäöøáéíóúñü\.\w\d\-_]/
+        version:
+          type: string
+          description: The version of the service.
+          minLength: 1
+          maxLength: 50
+          pattern: /[^a-z0-9@åäöøáéíóúñü\.\w\d\-_]/
+        description:
+          type: string
+          description: Description of the service.
+          minLength: 1
+          maxLength: 50
+          pattern: /[^a-z0-9@åäöøáéíóúñü\.\w\d\-_]/
+        responsible:
+          type: string
+          description: Who is responsible for the solution?
+          minLength: 1
+          maxLength: 50
+          pattern: /[^a-z0-9@åäöøáéíóúñü\.\w\d\-_]/
+        team:
+          type: string
+          description: The team that owns this solution.
+          minLength: 1
+          maxLength: 50
+          pattern: /[^a-z0-9@åäöøáéíóúñü\.\w\d\-_]/
+        system:
+          type: string
+          description: The system this solution is part of.
+          minLength: 1
+          maxLength: 50
+          pattern: /[^a-z0-9@åäöøáéíóúñü\.\w\d\-_]/
+        domain:
+          type: string
+          description: The domain this solution/system is part of.
+          minLength: 1
+          maxLength: 50
+          pattern: /[^a-z0-9@åäöøáéíóúñü\.\w\d\-_]/
+        dataSensitivity:
+          type: string
+          description: The overall data sensitivity of this solution.
+          minLength: 1
+          maxLength: 50
+          pattern: /[^a-z0-9@åäöøáéíóúñü\.\w\d\-_]/
+        tags:
+          type: array
+          maxItems: 10
+          items:
+            type: string
+            minLength: 1
+            maxLength: 50
+            pattern: /[^a-z0-9@åäöøáéíóúñü\.\w\d\-_]/
+    Relations:
+      type: array
+      maxItems: 100
+      items:
+        type: string
+        minLength: 1
+        maxLength: 50
+        pattern: /[^a-z0-9@åäöøáéíóúñü\.\w\d\-_]/
+    Support:
+      type: object
+      additionalProperties:
+        type: string
+        minLength: 1
+        maxLength: 50
+        pattern: /[^a-z0-9@åäöøáéíóúñü\.\w\d\-_]/
+    Slo:
+      type: array
+      maxItems: 10
+      items:
+        $ref: '#/components/schemas/SloItem'
+    SloItem:
+      type: object
+      required:
+        - "description"
+      additionalProperties:
+        type: string
+        minLength: 1
+        maxLength: 50
+        pattern: /[^a-z0-9@åäöøáéíóúñü\.\w\d\-_]/
+      properties:
+        description:
+          type: string
+          description: Description of the service-level objective.
+          minLength: 1
+          maxLength: 50
+          pattern: /[^a-z0-9@åäöøáéíóúñü\.\w\d\-_]/
+        level:
+          type: string
+          description: What is the level of the SLO?
+          minLength: 1
+          maxLength: 50
+          pattern: /[^a-z0-9@åäöøáéíóúñü\.\w\d\-_]/
+        percentile:
+          type: string
+          description: The percentile to represent this SLO.
+          minLength: 1
+          maxLength: 50
+          pattern: /[^a-z0-9@åäöøáéíóúñü\.\w\d\-_]/
+        maxLatency:
+          type: string
+          description: Max latency of the SLO.
+          minLength: 1
+          maxLength: 50
+          pattern: /[^a-z0-9@åäöøáéíóúñü\.\w\d\-_]/
+    Api:
+      type: array
+      maxItems: 10
+      items:
+        $ref: '#/components/schemas/ApiItem'
+    ApiItem:
+      type: object
+      additionalProperties:
+        type: string
+        minLength: 1
+        maxLength: 50
+        pattern: /[^a-z0-9@åäöøáéíóúñü\.\w\d\-_]/
+      properties:
+        serviceName:
+          type: string
+          description: The name of the API.
+          minLength: 1
+          maxLength: 50
+          pattern: /[^a-z0-9@åäöøáéíóúñü\.\w\d\-_]/
+    Metadata:
+      type: object
+      additionalProperties:
+        type: string
+        minLength: 1
+        maxLength: 50
+        pattern: /[^a-z0-9@åäöøáéíóúñü\.\w\d\-_]/
+    Links:
+      type: array
+      maxItems: 10
+      items:
+        $ref: '#/components/schemas/LinkItem'
+    LinkItem:
+      type: object
+      additionalProperties: false
+      required:
+        - "url"
+        - "title"
+        - "icon"
+      properties:
+        url:
+          type: string
+          description: URL for the link.
+          minLength: 1
+          maxLength: 50
+          pattern: /[^a-z0-9@åäöøáéíóúñü\.\w\d\-_]/
+        title:
+          type: string
+          description: Title and description of the link.
+          minLength: 1
+          maxLength: 50
+          pattern: /[^a-z0-9@åäöøáéíóúñü\.\w\d\-_]/
+        icon:
+          type: string
+          description: What type of icon should represent this?
+          minLength: 1
+          maxLength: 50
+          pattern: /[^a-z0-9@åäöøáéíóúñü\.\w\d\-_]/
+
+  requestBodies:
+    CreateRecord:
+      description: Create record request body
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Manifest"
+
+  responses:
+    "401":
+      description: Unauthorized
+      content:
+        text/plain:
+          schema:
+            title: Unauthorized
+            type: string
+            example: Unauthorized
+            minLength: 3
+            maxLength: 50
+            pattern: ^[A-Za-z0-9.!\s]{3,30}$
+    "403":
+      description: Forbidden
+      content:
+        text/plain:
+          schema:
+            title: Forbidden
+            type: string
+            example: Forbidden
+            minLength: 3
+            maxLength: 50
+            pattern: ^[A-Za-z0-9.!\s]{3,30}$
+    "404":
+      description: Not found
+      content:
+        text/plain:
+          schema:
+            title: Not found
+            type: string
+            example: Not found
+            minLength: 3
+            maxLength: 50
+            pattern: ^[A-Za-z0-9.!\s]{3,30}$
+    "406":
+      description: Not acceptable
+      content:
+        text/plain:
+          schema:
+            title: Not acceptable
+            type: string
+            example: Not acceptable
+            minLength: 3
+            maxLength: 50
+            pattern: ^[A-Za-z0-9.!\s]{3,30}$
+    "429":
+      description: Too many requests
+      content:
+        text/plain:
+          schema:
+            title: Too many requests
+            type: string
+            example: Too many requests
+            minLength: 3
+            maxLength: 50
+            pattern: ^[A-Za-z0-9.!\s]{3,30}$
