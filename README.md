@@ -402,19 +402,22 @@ The basic "get records" call will get all records that have `spec.lifecycleStage
   {
     "spec": {
       "serviceName": "my-service",
-      "lifecycleStage": "production"
+      "lifecycleStage": "production",
+      "timestamp": 1641987006000
     }
   },
   {
     "spec": {
       "serviceName": "some-other-service",
-      "lifecycleStage": "production"
+      "lifecycleStage": "production",
+      "timestamp": 1641987007000
     }
   },
   {
     "spec": {
       "serviceName": "user-service",
-      "lifecycleStage": "production"
+      "lifecycleStage": "production",
+      "timestamp": 1641987008000
     }
   }
 ]
@@ -435,7 +438,8 @@ If no `lifecycleStage` is provided, `production` will be inferred.
   {
     "spec": {
       "serviceName": "my-service",
-      "lifecycleStage": "production"
+      "lifecycleStage": "production",
+      "timestamp": 1641987006000
     }
   }
 ]
@@ -456,13 +460,15 @@ Get multiple services in the `production` lifecycle stage.
   {
     "spec": {
       "serviceName": "my-service",
-      "lifecycleStage": "production"
+      "lifecycleStage": "production",
+      "timestamp": 1641987006000
     }
   },
   {
     "spec": {
       "serviceName": "some-other-service",
-      "lifecycleStage": "production"
+      "lifecycleStage": "production",
+      "timestamp": 1641987007000
     }
   }
 ]
@@ -483,13 +489,15 @@ Get all records by lifecycle stage.
   {
     "spec": {
       "serviceName": "test-service",
-      "lifecycleStage": "testing"
+      "lifecycleStage": "testing",
+      "timestamp": 1641987004000
     }
   },
   {
     "spec": {
       "serviceName": "api-testing-service",
-      "lifecycleStage": "testing"
+      "lifecycleStage": "testing",
+      "timestamp": 1641987005000
     }
   }
 ]
@@ -510,7 +518,8 @@ Use a combination of lifecycle stage and service name.
   {
     "spec": {
       "serviceName": "test-service",
-      "lifecycleStage": "testing"
+      "lifecycleStage": "testing",
+      "timestamp": 1641987004000
     }
   }
 ]
@@ -531,13 +540,15 @@ Get multiple services by name and lifecycle stage.
   {
     "spec": {
       "serviceName": "my-service",
-      "lifecycleStage": "production"
+      "lifecycleStage": "production",
+      "timestamp": 1641987006000
     }
   },
   {
     "spec": {
       "serviceName": "some-other-service",
-      "lifecycleStage": "production"
+      "lifecycleStage": "production",
+      "timestamp": 1641987007000
     }
   }
 ]
