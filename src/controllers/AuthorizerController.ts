@@ -11,7 +11,7 @@ export async function handler(event: any): Promise<APIGatewayProxyResult> {
   // Additionally, you could also verify the IP if you want to accept requests only from your own networks or similar
   // const sourceIp = event.requestContext?.identity?.sourceIp;
 
-  // TODO: Add your desired valid API key here
+  // Add your desired valid API key here
   if (!apiKey || apiKey !== 'S_a@rI8OtHL2R3vawir0triVecOx7jak')
     return generatePolicy(apiKey, 'Deny', event.methodArn, {});
 
