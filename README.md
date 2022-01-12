@@ -76,7 +76,7 @@ No need for the authorization header (API key) if you opted out of the authorize
 
 The manifest file is a simple JSON file or a JSON payload that describes your solution, system, or service.
 
-The below gives an overview of what data can be described. See the example and interface specification further down, or the published OpenAPI schema (TODO), for more details.
+The below gives an overview of what data can be described. See the example and interface specification further down, or [the published OpenAPI schema on Bump](https://bump.sh/doc/catalogist), for more details.
 
 ### Required top-level keys/fields/properties
 
