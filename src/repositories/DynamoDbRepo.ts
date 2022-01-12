@@ -44,9 +44,9 @@ class DynamoRepository implements Repository {
           const entries = Object.entries(item).reverse();
 
           entries.forEach((entry: any) => {
-            const [key, val] = entry;
-            const query: any = Object.values(val)[0];
-            cleanedItem[key] = isJsonString(query) ? JSON.parse(query) : query;
+            const [_key, _val] = entry;
+            const _query: any = Object.values(_val)[0];
+            cleanedItem[_key] = isJsonString(_query) ? JSON.parse(_query) : _query;
           });
 
           fixedItems.push(cleanedItem);
