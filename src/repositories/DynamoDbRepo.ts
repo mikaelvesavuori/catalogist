@@ -71,7 +71,7 @@ class DynamoRepository implements Repository {
       const params: any = {
         TableName: TABLE_NAME,
         Item: {
-          timestamp: { S: Date.now().toString() },
+          timestamp: { S: `${Date.now().toString()}` },
           lifecycleStage: { S: lifecycleStage },
           serviceName: { S: serviceName },
           spec: { S: JSON.stringify(spec) }

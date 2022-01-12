@@ -28,7 +28,9 @@ _As it stands currently, `catalogist` is implemented in an AWS-slanted direction
 
 On the surface `catalogist` is a relatively simple Node.js-based serverless application that exposes an API Gateway with three microservices behind it: an optional authorizer, one for creating a record, and the last one for getting records. Records are persisted in DynamoDB. When deployed, the standard implementation—as provided—results in a complete solution with an (optional) authorizer function, the backend functions, and all required infrastructure resources.
 
-![Catalogist diagram](diagrams/catalogist-diagram.png)
+![Catalogist diagram](images/catalogist-diagram.png)
+
+Please see the [API docs on Bump](https://bump.sh/doc/catalogist) or the [generated documentation site](https://catalogist.pages.dev) for more detailed information.
 
 ---
 
@@ -192,7 +194,7 @@ export interface Manifest {
   slo?: Slo;
   links?: Links;
   metadata?: Metadata;
-  timestamp?: string; // Timestamp value is generated when the manifest is persisted
+  timestamp?: string | number; // Timestamp value is generated when the manifest is persisted
 }
 
 /**

@@ -9,7 +9,7 @@ export interface Manifest {
   slo?: Slo;
   links?: Links;
   metadata?: Metadata;
-  timestamp?: string; // Timestamp value is generated when the manifest is persisted
+  timestamp?: string | number; // Timestamp value is generated when the manifest is persisted
 }
 
 /**
