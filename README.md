@@ -7,6 +7,7 @@
 **You were a person on a mission: To have a total bird's eye view on your entire software estate. You tried to win the hearts and minds of developers with microservices, and after many battles you are now finally churning out itty-bitty services, but find yourself in a quagmire without the faintest clue about what's going on anymore. Like [Fox Mulder](https://en.wikipedia.org/wiki/Fox_Mulder), you become disillusioned with what sad excuse of a "truth" is _actually_ out there.** 😭😭😭
 
 !["Big ball of mud"](images/servicemap.jpeg)
+
 _From [Mario Fusco's Twitter post](https://twitter.com/mariofusco/status/1112332826861547520/photo/1)_
 
 `catalogist` helps you make sense of that, in a lightweight and developer-friendly way, without having to break the bank to purchase six-figure enterprise architecture software or going all-in on [Backstage](https://backstage.io).
