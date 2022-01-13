@@ -14,7 +14,11 @@
     "service-landscape",
     "software-landscape",
     "software-observability",
-    "observability"
+    "observability",
+    "discovery",
+    "discovery-service",
+    "discoverability",
+    "software-discovery"
   ],
   "license": "MIT",
   "main": "index.js",
