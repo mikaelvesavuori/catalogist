@@ -46,7 +46,7 @@ package:
 
 custom:
   aws:
-    accountNumber: "876265053232"
+    accountNumber: "123412341234"
     tableName: "catalogist"
     databaseArn: "arn:aws:dynamodb:${self:provider.region}:${self:custom.aws.accountNumber}:table/${self:custom.aws.tableName}"
   webpack:
