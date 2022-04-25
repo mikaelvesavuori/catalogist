@@ -61,7 +61,7 @@
     "ts-loader": "9",
     "ts-node": "latest",
     "tslib": "latest",
-    "typedoc": "latest",
+    "typedoc": "^0.22.15",
     "typescript": "4",
     "webpack": "5",
     "webpack-cli": "latest"
