@@ -1,0 +1,6 @@
+.env
+node_modules/
+.dccache
+build/
+.webpack/
+.serverless/
