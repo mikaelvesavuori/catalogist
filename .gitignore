@@ -1,11 +1,3 @@
-<<<<<<< HEAD
-.env
-node_modules/
-.dccache
-build/
-.webpack/
-.serverless/
-=======
 node_modules/
 .serverless/
 .webpack/
@@ -13,8 +5,8 @@ build/
 .dccache
 
 # Files generated from tests
-/jest-coverage/
-**/jest-coverage/
+/jest-coverage/**
+**/jest-coverage/**
 
 # No Yarn stuff
 yarn.lock
@@ -121,4 +113,3 @@ coverage
 
 # Yarn Integrity file
 .yarn-integrity
->>>>>>> 5acbd0b5aab1d295c61003a4cbf94d91233fc9c8
