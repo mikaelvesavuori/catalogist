@@ -5,8 +5,8 @@ build/
 .dccache
 
 # Files generated from tests
-/jest-coverage
-**/jest-coverage
+/jest-coverage/
+**/jest-coverage/
 
 # No Yarn stuff
 yarn.lock
