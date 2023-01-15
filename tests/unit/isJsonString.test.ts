@@ -1,4 +1,4 @@
-import { isJsonString } from '../../src/frameworks/isJsonString';
+import { isJsonString } from '../../src/infrastructure/frameworks/isJsonString';
 
 describe('Success cases', () => {
   test('It should return a "false" boolean value when given a string', () => {

@@ -1,8 +1,8 @@
 import { APIGatewayProxyEventQueryStringParameters } from 'aws-lambda';
 
-import { QueryStringParams } from '../domain/interfaces/QueryStringParams';
+import { QueryStringParams } from '../../interfaces/QueryStringParams';
 
-import { UnknownKeyError } from '../domain/errors/UnknownKeyError';
+import { UnknownKeyError } from '../../application/errors/UnknownKeyError';
 
 /**
  * @description Get query string parameters from call.

@@ -1,8 +1,8 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
 
-import { createNewCatalogist } from '../domain/entities/Catalogist';
-import { getRecords } from '../usecases/getRecords';
-import { createNewDynamoRepository } from '../repositories/DynamoDbRepo';
+import { createNewCatalogist } from '../../../domain/entities/Catalogist';
+import { getRecords } from '../../../usecases/getRecords';
+import { createNewDynamoRepository } from '../../repositories/DynamoDbRepo';
 
 /**
  * @description The controller for our service that gets Catalogist records.

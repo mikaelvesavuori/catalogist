@@ -3,6 +3,7 @@ node_modules/
 .webpack/
 build/
 .dccache
+.esbuild/
 
 # Files generated from tests
 /jest-coverage/**

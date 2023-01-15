@@ -1,6 +1,6 @@
-import { UnknownKeyError } from '../../src/domain/errors/UnknownKeyError';
+import { getQueryStringParams } from '../../src/infrastructure/frameworks/getQueryStringParams';
 
-import { getQueryStringParams } from '../../src/frameworks/getQueryStringParams';
+import { UnknownKeyError } from '../../src/application/errors/UnknownKeyError';
 
 const validResponse = { queries: ['my-service'], lifecycleStage: 'production' };
 

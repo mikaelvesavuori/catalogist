@@ -1,8 +1,10 @@
 import { APIGatewayProxyEvent } from 'aws-lambda';
 
 import { createNewCatalogist } from '../../src/domain/entities/Catalogist';
+
 import { getRecords } from '../../src/usecases/getRecords';
-import { createNewLocalRepository } from '../../src/repositories/LocalRepo';
+
+import { createNewLocalRepository } from '../../src/infrastructure/repositories/LocalRepo';
 
 import event from '../../testdata/requests/awsEventRequest.json';
 import { dataSomeotherLifecycle, dataProduction } from '../../testdata/TestDatabase';

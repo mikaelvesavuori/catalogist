@@ -1,8 +1,8 @@
 import { APIGatewayProxyEvent, APIGatewayProxyEventQueryStringParameters } from 'aws-lambda';
 
-import { Catalogist } from '../domain/interfaces/Catalogist';
-import { QueryStringParams } from '../domain/interfaces/QueryStringParams';
-import { getQueryStringParams } from '../frameworks/getQueryStringParams';
+import { Catalogist } from '../interfaces/Catalogist';
+import { QueryStringParams } from '../interfaces/QueryStringParams';
+import { getQueryStringParams } from '../infrastructure/frameworks/getQueryStringParams';
 
 /**
  * @description The use-case for getting records from the repository.

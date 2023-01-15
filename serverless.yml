@@ -3,13 +3,12 @@ service: catalogist
 provider:
   name: aws
   runtime: nodejs18.x
-  stage: ${opt:stage, 'shared'}
-  region: eu-north-1
-  memorySize: 1024
+  stage: ${opt:stage, 'dev'}
+  region:  ${opt:region, 'eu-north-1'}
+  memorySize: ${opt:memory, 512}
   timeout: 10
   logRetentionInDays: 7
-  versionFunctions: true
-  lambdaHashingVersion: 20201221
+  versionFunctions: false
   deploymentBucket:
     blockPublicAccess: true
     maxPreviousDeploymentArtifacts: 5
@@ -20,47 +19,36 @@ provider:
     Usage: ${self:service}
   apiGateway:
     minimumCompressionSize: 1024
-  tracing:
-    apiGateway: true
-    lambda: true
-  iamRoleStatements:
-    - Effect: Allow
-      Action:
-        - xray:PutTelemetryRecords
-        - xray:PutTraceSegments
-      Resource:
-        - "*"
-  environment:
-    TABLE_NAME: ${self:custom.aws.tableName}
+  iam:
+    role:
+      statements:
+      - Effect: Allow
+        Action:
+          - xray:PutTelemetryRecords
+          - xray:PutTraceSegments
+        Resource:
+          - "*"
 
 plugins:
-  - serverless-webpack
+  - serverless-esbuild
   - serverless-offline
   - serverless-iam-roles-per-function
 
 package:
   individually: true
-  patterns:
-    - node_modules/aws-sdk/**
-    - node_modules/aws-lambda/**
 
 custom:
   aws:
-    accountNumber: "123412341234"
-    tableName: "catalogist"
-    databaseArn: "arn:aws:dynamodb:${self:provider.region}:${self:custom.aws.accountNumber}:table/${self:custom.aws.tableName}"
-  webpack:
-    webpackConfig: 'webpack.config.js'
-    includeModules: true
-    packager: 'npm'
-    excludeFiles: src/**/*.test.js
+    accountNumber: 123412341234
+    tableName: catalogist
+    databaseArn: arn:aws:dynamodb:${self:provider.region}:${self:custom.aws.accountNumber}:table/${self:custom.aws.tableName}
 
 functions:
   Authorizer:
-    handler: src/controllers/AuthorizerController.handler
+    handler: src/infrastructure/adapters/web/Authorizer.handler
     description: ${self:service} authorizer
-  CreateRecordController:
-    handler: src/controllers/CreateRecordsController.handler
+  CreateRecords:
+    handler: src/infrastructure/adapters/web/CreateRecords.handler
     description: Create record
     events:
       - http:
@@ -79,8 +67,10 @@ functions:
         Action:
           - dynamodb:PutItem
         Resource: ${self:custom.aws.databaseArn}
-  GetRecordsController:
-    handler: src/controllers/GetRecordsController.handler
+    environment:
+      TABLE_NAME: ${self:custom.aws.tableName}
+  GetRecords:
+    handler: src/infrastructure/adapters/web/GetRecords.handler
     description: Get records
     events:
       - http:
@@ -102,6 +92,8 @@ functions:
         Action:
           - dynamodb:Query
         Resource: ${self:custom.aws.databaseArn}
+    environment:
+      TABLE_NAME: ${self:custom.aws.tableName}
 
 resources:
   Resources:

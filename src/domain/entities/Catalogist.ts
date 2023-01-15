@@ -1,6 +1,6 @@
-import { Catalogist } from '../interfaces/Catalogist';
-import { Repository } from '../interfaces/Repository';
-import { Manifest } from '../interfaces/Manifest';
+import { Catalogist } from '../../interfaces/Catalogist';
+import { Repository } from '../../interfaces/Repository';
+import { Manifest } from '../../interfaces/Manifest';
 
 /**
  * @description Factory function for Catalogist.

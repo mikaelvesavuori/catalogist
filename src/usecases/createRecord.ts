@@ -1,4 +1,4 @@
-import { Catalogist } from '../domain/interfaces/Catalogist';
+import { Catalogist } from '../interfaces/Catalogist';
 
 import { createNewManifest } from '../domain/valueObjects/Manifest';
 

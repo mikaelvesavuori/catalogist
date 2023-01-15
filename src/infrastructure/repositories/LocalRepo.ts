@@ -1,7 +1,7 @@
-import { Manifest } from '../domain/interfaces/Manifest';
-import { Repository } from '../domain/interfaces/Repository';
+import { Manifest } from '../../interfaces/Manifest';
+import { Repository } from '../../interfaces/Repository';
 
-import { dataSomeotherLifecycle, dataProduction } from '../../testdata/TestDatabase';
+import { dataSomeotherLifecycle, dataProduction } from '../../../testdata/TestDatabase';
 
 /**
  * @description Factory function for local repository.

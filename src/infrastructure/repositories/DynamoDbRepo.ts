@@ -1,9 +1,9 @@
 import { DynamoDBClient, PutItemCommand, QueryCommand } from '@aws-sdk/client-dynamodb';
 
-import { Repository } from '../domain/interfaces/Repository';
-import { Manifest } from '../domain/interfaces/Manifest';
-import { GetDataError } from '../domain/errors/GetDataError';
-import { UpdateItemError } from '../domain/errors/UpdateItemError';
+import { Repository } from '../../interfaces/Repository';
+import { Manifest } from '../../interfaces/Manifest';
+import { GetDataError } from '../../application/errors/GetDataError';
+import { UpdateItemError } from '../../application/errors/UpdateItemError';
 
 import { isJsonString } from '../frameworks/isJsonString';
 

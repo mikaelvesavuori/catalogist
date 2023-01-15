@@ -1,4 +1,4 @@
-import { Manifest } from '../interfaces/Manifest';
+import { Manifest } from './Manifest';
 
 /**
  * @description Repository interface.

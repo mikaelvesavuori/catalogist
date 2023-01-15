@@ -1,8 +1,8 @@
-import { Manifest } from '../../domain/interfaces/Manifest';
+import { Manifest } from '../../interfaces/Manifest';
 
-import { SizeError } from '../../domain/errors/SizeError';
-import { MissingSpecKeysError } from '../../domain/errors/MissingSpecKeysError';
-import { ValidationError } from '../../domain/errors/ValidationError';
+import { SizeError } from '../../application/errors/SizeError';
+import { MissingSpecKeysError } from '../../application/errors/MissingSpecKeysError';
+import { ValidationError } from '../../application/errors/ValidationError';
 
 /**
  * @description Factory utility to create new Manifest value object.

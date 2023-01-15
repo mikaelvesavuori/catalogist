@@ -2,13 +2,13 @@ import crypto from 'crypto';
 
 import { createNewCatalogist } from '../../src/domain/entities/Catalogist';
 
-import { ValidationError } from '../../src/domain/errors/ValidationError';
-import { MissingSpecKeysError } from '../../src/domain/errors/MissingSpecKeysError';
-import { SizeError } from '../../src/domain/errors/SizeError';
-
 import { createRecord } from '../../src/usecases/createRecord';
 
-import { createNewLocalRepository } from '../../src/repositories/LocalRepo';
+import { createNewLocalRepository } from '../../src/infrastructure/repositories/LocalRepo';
+
+import { ValidationError } from '../../src/application/errors/ValidationError';
+import { MissingSpecKeysError } from '../../src/application/errors/MissingSpecKeysError';
+import { SizeError } from '../../src/application/errors/SizeError';
 
 import createRecordMissingSpecField from '../../testdata/requests/createRecordMissingSpecField.json';
 import createRecordMissingServiceNameField from '../../testdata/requests/createRecordMissingServiceNameField.json';
