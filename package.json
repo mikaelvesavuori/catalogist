@@ -32,7 +32,7 @@
     "docs": "npx arkit && npm run docs:typedoc",
     "docs:typedoc": "npx typedoc --entryPoints './src' --entryPointStrategy 'expand' --exclude '**/*+(test).ts' --externalPattern '**/node_modules/**/*' --excludeExternals --out 'docs'",
     "build": "npx sls package",
-    "build:hosting": "npm run docs && cp -r diagrams typedoc-docs",
+    "build:hosting": "npm run docs && cp -r diagrams docs && cp -r images docs",
     "test": "npm run test:unit",
     "test:unit": "npx jest tests --collectCoverage",
     "test:unit:watch": "npx jest --clearCache && npx jest tests --collectCoverage --watch",
