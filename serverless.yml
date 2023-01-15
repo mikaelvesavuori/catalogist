@@ -113,6 +113,8 @@ resources:
           - AttributeName: serviceName
             KeyType: RANGE
         BillingMode: PAY_PER_REQUEST
+        PointInTimeRecoverySpecification:
+          PointInTimeRecoveryEnabled: true
     # API Gateway configuration
     GatewayResponseDefault4XX:
       Type: 'AWS::ApiGateway::GatewayResponse'
