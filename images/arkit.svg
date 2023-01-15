@@ -1,16 +1,24 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="229px" preserveAspectRatio="none" style="width:504px;height:229px;" version="1.1" viewBox="0 0 504 229" width="504px" zoomAndPan="magnify"><defs/><g><!--MD5=[5edfa7121972f9ed9fbf0a4c690ab7d6]
-cluster Domain entities--><path d="M25,26 L139,26 A4.5,4.5 0 0 1 142,29 L149,45.9688 L159,45.9688 A3,3 0 0 1 162,48.9688 L162,97 A3,3 0 0 1 159,100 L25,100 A3,3 0 0 1 22,97 L22,29 A3,3 0 0 1 25,26 " fill="#FFFFFF" style="stroke: #000000; stroke-width: 1.5;"/><line style="stroke: #000000; stroke-width: 1.5;" x1="22" x2="149" y1="45.9688" y2="45.9688"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="114" x="26" y="39.1387">Domain entities</text><!--MD5=[3fe454f5ee662415b72b39d1d24abdcd]
-cluster Domain value objects--><path d="M325,135 L479,135 A4.5,4.5 0 0 1 482,138 L489,154.9688 L489,154.9688 A3,3 0 0 1 492,157.9688 L492,214 A3,3 0 0 1 489,217 L325,217 A3,3 0 0 1 322,214 L322,138 A3,3 0 0 1 325,135 " fill="#FFFFFF" style="stroke: #000000; stroke-width: 1.5;"/><line style="stroke: #000000; stroke-width: 1.5;" x1="322" x2="489" y1="154.9688" y2="154.9688"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="154" x="326" y="148.1387">Domain value objects</text><!--MD5=[6326b81c113285a9d7424a8f38b27174]
-cluster Usecases--><path d="M189,24 L257,24 A4.5,4.5 0 0 1 260,27 L267,43.9688 L470,43.9688 A3,3 0 0 1 473,46.9688 L473,99 A3,3 0 0 1 470,102 L189,102 A3,3 0 0 1 186,99 L186,27 A3,3 0 0 1 189,24 " fill="#FFFFFF" style="stroke: #000000; stroke-width: 1.5;"/><line style="stroke: #000000; stroke-width: 1.5;" x1="186" x2="267" y1="43.9688" y2="43.9688"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="68" x="190" y="37.1387">Usecases</text><ellipse cx="92.2424" cy="71.2485" fill="#F8F8F8" rx="54.2424" ry="13.2485" style="stroke: #383838; stroke-width: 0.5;"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="75" x="54.7424" y="74.7329">Catalogist</text><!--MD5=[f00eee0d8599795d6915a015e1c4223a]
-entity _Manifest--><rect fill="#F8F8F8" height="33.9688" rx="3" ry="3" style="stroke: #000000; stroke-width: 0.5;" width="72" x="357" y="167"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="52" x="367" y="188.1387">Manifest</text><ellipse cx="392.988" cy="71.1976" fill="#F8F8F8" rx="63.988" ry="15.1976" style="stroke: #383838; stroke-width: 0.5;"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="100" x="342.988" y="74.682">createRecord</text><ellipse cx="260.1218" cy="70.9244" fill="#F8F8F8" rx="57.6218" ry="13.9244" style="stroke: #383838; stroke-width: 0.5;"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="84" x="218.1218" y="74.4087">getRecords</text><!--MD5=[9c20dc76209a8dcb1c6be305e46b49f2]
-link <b>createRecord</b> to _Manifest--><path d="M393,86.058 C393,105.177 393,139.5388 393,161.7966 " fill="none" id="&lt;b&gt;createRecord&lt;/b&gt;-&gt;_Manifest" style="stroke: #000000; stroke-width: 1.0;"/><polygon fill="#000000" points="393,166.9023,397,157.9023,393,161.9023,389,157.9023,393,166.9023" style="stroke: #000000; stroke-width: 1.0;"/><script type="text/plantuml"><![CDATA[MD5=[43a3e33c2da01c3b51d5622a77dd9ce3]
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="442px" preserveAspectRatio="none" style="width:536px;height:442px;" version="1.1" viewBox="0 0 536 442" width="536px" zoomAndPan="magnify"><defs/><g><!--MD5=[aedc30b8666742a3000193d7e0a0b93e]
+cluster Adapters--><path d="M107,24 L174,24 A4.5,4.5 0 0 1 177,27 L184,43.9688 L521,43.9688 A3,3 0 0 1 524,46.9688 L524,101 A3,3 0 0 1 521,104 L107,104 A3,3 0 0 1 104,101 L104,27 A3,3 0 0 1 107,24 " fill="#FFFFFF" style="stroke: #000000; stroke-width: 1.5;"/><line style="stroke: #000000; stroke-width: 1.5;" x1="104" x2="184" y1="43.9688" y2="43.9688"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="67" x="108" y="37.1387">Adapters</text><!--MD5=[5edfa7121972f9ed9fbf0a4c690ab7d6]
+cluster Domain entities--><path d="M25,240 L139,240 A4.5,4.5 0 0 1 142,243 L149,259.9688 L149,259.9688 A3,3 0 0 1 152,262.9688 L152,311 A3,3 0 0 1 149,314 L25,314 A3,3 0 0 1 22,311 L22,243 A3,3 0 0 1 25,240 " fill="#FFFFFF" style="stroke: #000000; stroke-width: 1.5;"/><line style="stroke: #000000; stroke-width: 1.5;" x1="22" x2="149" y1="259.9688" y2="259.9688"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="114" x="26" y="253.1387">Domain entities</text><!--MD5=[3fe454f5ee662415b72b39d1d24abdcd]
+cluster Domain value objects--><path d="M190,348 L344,348 A4.5,4.5 0 0 1 347,351 L354,367.9688 L354,367.9688 A3,3 0 0 1 357,370.9688 L357,427 A3,3 0 0 1 354,430 L190,430 A3,3 0 0 1 187,427 L187,351 A3,3 0 0 1 190,348 " fill="#FFFFFF" style="stroke: #000000; stroke-width: 1.5;"/><line style="stroke: #000000; stroke-width: 1.5;" x1="187" x2="354" y1="367.9688" y2="367.9688"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="154" x="191" y="361.1387">Domain value objects</text><!--MD5=[600c2d25b6889bd4e9f6b335204b22ae]
+cluster Repositories--><path d="M102,137 L194,137 A4.5,4.5 0 0 1 197,140 L204,156.9688 L256,156.9688 A3,3 0 0 1 259,159.9688 L259,212 A3,3 0 0 1 256,215 L102,215 A3,3 0 0 1 99,212 L99,140 A3,3 0 0 1 102,137 " fill="#FFFFFF" style="stroke: #000000; stroke-width: 1.5;"/><line style="stroke: #000000; stroke-width: 1.5;" x1="99" x2="204" y1="156.9688" y2="156.9688"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="92" x="103" y="150.1387">Repositories</text><!--MD5=[6326b81c113285a9d7424a8f38b27174]
+cluster Usecases--><path d="M200,239 L268,239 A4.5,4.5 0 0 1 271,242 L278,258.9688 L463,258.9688 A3,3 0 0 1 466,261.9688 L466,312 A3,3 0 0 1 463,315 L200,315 A3,3 0 0 1 197,312 L197,242 A3,3 0 0 1 200,239 " fill="#FFFFFF" style="stroke: #000000; stroke-width: 1.5;"/><line style="stroke: #000000; stroke-width: 1.5;" x1="197" x2="278" y1="258.9688" y2="258.9688"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="68" x="201" y="252.1387">Usecases</text><ellipse cx="451.8501" cy="71.97" fill="#F8F8F8" rx="55.3501" ry="13.47" style="stroke: #383838; stroke-width: 0.5;"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="78" x="412.8501" y="75.4544">Authorizer</text><ellipse cx="188.2286" cy="71.9457" fill="#F8F8F8" rx="67.7286" ry="15.9457" style="stroke: #383838; stroke-width: 0.5;"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="109" x="133.7286" y="75.4301">CreateRecords</text><ellipse cx="326.0072" cy="72.0014" fill="#F8F8F8" rx="58.0072" ry="14.0014" style="stroke: #383838; stroke-width: 0.5;"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="85" x="283.5072" y="75.4858">GetRecords</text><ellipse cx="86.7548" cy="284.8774" fill="#F8F8F8" rx="48.2548" ry="12.8774" style="stroke: #383838; stroke-width: 0.5;"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="64" x="54.7548" y="288.3618">Catalogist</text><!--MD5=[f00eee0d8599795d6915a015e1c4223a]
+entity _Manifest--><rect fill="#F8F8F8" height="33.9688" rx="3" ry="3" style="stroke: #000000; stroke-width: 0.5;" width="72" x="236" y="380"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="52" x="246" y="401.1387">Manifest</text><ellipse cx="178.988" cy="184.1976" fill="#F8F8F8" rx="63.988" ry="15.1976" style="stroke: #383838; stroke-width: 0.5;"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="100" x="128.988" y="187.682">DynamoDbRepo</text><ellipse cx="271.8944" cy="285.0789" fill="#F8F8F8" rx="58.3944" ry="14.0789" style="stroke: #383838; stroke-width: 0.5;"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="86" x="228.8944" y="288.5633">createRecord</text><ellipse cx="396.0152" cy="285.103" fill="#F8F8F8" rx="53.5152" ry="13.103" style="stroke: #383838; stroke-width: 0.5;"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="73" x="359.5152" y="288.5874">getRecords</text><!--MD5=[a5ecdc7eb1b040d2c8448e1448da678c]
+link createRecord to _Manifest--><path d="M272,299.05 C272,317.701 272,352.1975 272,374.6125 " fill="none" id="createRecord-&gt;_Manifest" style="stroke: #000000; stroke-width: 0.5;"/><polygon fill="#000000" points="272,379.7562,276,370.7562,272,374.7562,268,370.7562,272,379.7562" style="stroke: #000000; stroke-width: 0.5;"/><!--MD5=[1346f44fd1a15c3fabcb771e692ae0c4]
+link <b>CreateRecords</b> to Catalogist--><path d="M155.583,86.193 C137.309,95.391 115.832,109.528 104,129 C77.532,172.559 80.8014,235.888 84.3831,266.344 " fill="none" id="&lt;b&gt;CreateRecords&lt;/b&gt;-&gt;Catalogist" style="stroke: #000000; stroke-width: 1.0;"/><polygon fill="#000000" points="85.0484,271.636,87.8934,262.207,84.4241,266.6751,79.956,263.2058,85.0484,271.636" style="stroke: #000000; stroke-width: 1.0;"/><!--MD5=[bea266a8e938efc20de2955a7e178960]
+link <b>CreateRecords</b> to createRecord--><path d="M212.208,86.936 C226.861,96.735 244.498,111.246 254,129 C277.707,173.297 276.512,234.759 274.053,265.268 " fill="none" id="&lt;b&gt;CreateRecords&lt;/b&gt;-&gt;createRecord" style="stroke: #000000; stroke-width: 1.0;"/><polygon fill="#000000" points="273.585,270.594,278.3567,261.9782,274.0222,265.6132,270.3873,261.2787,273.585,270.594" style="stroke: #000000; stroke-width: 1.0;"/><!--MD5=[0f812c1064dcfd02aa36fa565f47e097]
+link <b>CreateRecords</b> to DynamoDbRepo--><path d="M186.749,88.295 C185.137,107.996 182.334,142.249 180.578,163.714 " fill="none" id="&lt;b&gt;CreateRecords&lt;/b&gt;-&gt;DynamoDbRepo" style="stroke: #000000; stroke-width: 1.0;"/><polygon fill="#000000" points="180.155,168.88,184.8746,160.2356,180.5622,163.8966,176.9012,159.5841,180.155,168.88" style="stroke: #000000; stroke-width: 1.0;"/><!--MD5=[8e39928118652cbfdd865fb0476e4e38]
+link <b>GetRecords</b> to Catalogist--><path d="M323.917,86.008 C318.427,115.671 300.641,188.421 254,223 C235.216,236.926 224.392,224.263 202,231 C169.179,240.875 133.681,258.38 110.94,270.559 " fill="none" id="&lt;b&gt;GetRecords&lt;/b&gt;-&gt;Catalogist" style="stroke: #000000; stroke-width: 1.0;"/><polygon fill="#000000" points="106.287,273.072,116.1065,272.312,110.6857,270.6948,112.3029,265.274,106.287,273.072" style="stroke: #000000; stroke-width: 1.0;"/><!--MD5=[d15126dda52e0850772f522e884880ae]
+link <b>GetRecords</b> to DynamoDbRepo--><path d="M309.137,85.618 C282.542,105.52 230.844,144.205 201.241,166.357 " fill="none" id="&lt;b&gt;GetRecords&lt;/b&gt;-&gt;DynamoDbRepo" style="stroke: #000000; stroke-width: 1.0;"/><polygon fill="#000000" points="197.039,169.502,206.6413,167.3119,201.0421,166.5061,201.8478,160.9069,197.039,169.502" style="stroke: #000000; stroke-width: 1.0;"/><!--MD5=[7cc714e093ab74f4dbbd2e7b535b9d94]
+link <b>GetRecords</b> to getRecords--><path d="M331.251,86.092 C334.957,95.479 339.962,108.453 344,120 C362.641,173.306 382.11,237.325 391.017,267.16 " fill="none" id="&lt;b&gt;GetRecords&lt;/b&gt;-&gt;getRecords" style="stroke: #000000; stroke-width: 1.0;"/><polygon fill="#000000" points="392.455,271.985,393.7194,262.2176,391.0277,267.193,386.0523,264.5013,392.455,271.985" style="stroke: #000000; stroke-width: 1.0;"/><script type="text/plantuml"><![CDATA[MD5=[384e9a78da528f84dd49035e68283d1a]
 @startuml
 
 scale max 1920 width
 top to bottom direction
 
-skinparam nodesep 11
-skinparam ranksep 22
+skinparam nodesep 12
+skinparam ranksep 24
 skinparam monochrome true
 skinparam shadowing false
 skinparam defaultFontName Tahoma
@@ -34,22 +42,36 @@ skinparam component {
 }
 
 
+package "Adapters" {
+  (<b>Authorizer</b>)
+  (<b>CreateRecords</b>)
+  (<b>GetRecords</b>)
+}
 
 package "Domain entities" {
-  (<b>Catalogist</b>)
+  (Catalogist)
 }
 
 package "Domain value objects" {
   rectangle "Manifest" as _Manifest
 }
 
-
-package "Usecases" {
-  (<b>createRecord</b>)
-  (<b>getRecords</b>)
+package "Repositories" {
+  (DynamoDbRepo)
 }
 
-(<b>createRecord</b>) ---[thickness=1]> _Manifest
+package "Usecases" {
+  (createRecord)
+  (getRecords)
+}
+
+(createRecord) ---> _Manifest
+(<b>CreateRecords</b>) ----[thickness=1]> (Catalogist)
+(<b>CreateRecords</b>) ----[thickness=1]> (createRecord)
+(<b>CreateRecords</b>) ---[thickness=1]> (DynamoDbRepo)
+(<b>GetRecords</b>) ----[thickness=1]> (Catalogist)
+(<b>GetRecords</b>) ---[thickness=1]> (DynamoDbRepo)
+(<b>GetRecords</b>) ----[thickness=1]> (getRecords)
 
 @enduml
 

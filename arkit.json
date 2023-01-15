@@ -3,8 +3,8 @@
   "excludePatterns": ["tests/", "testdata/"],
   "components": [
     {
-      "type": "Controllers",
-      "patterns": ["src/controllers/*.ts"]
+      "type": "Adapters",
+      "patterns": ["src/infrastructure/adapters/web/*.ts"]
     },
     {
       "type": "Domain entities",
@@ -16,7 +16,7 @@
     },
     {
       "type": "Repositories",
-      "patterns": ["src/repositories/*.ts"]
+      "patterns": ["src/infrastructure/repositories/*.ts"]
     },
     {
       "type": "Usecases",
@@ -29,8 +29,8 @@
       "groups": [
         {
           "first": true,
-          "type": "Controllers",
-          "components": ["Controllers"]
+          "type": "Adapters",
+          "components": ["Adapters"]
         },
         {
           "type": "Domain entities",
