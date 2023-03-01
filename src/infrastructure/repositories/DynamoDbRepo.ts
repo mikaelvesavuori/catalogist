@@ -72,8 +72,8 @@ class DynamoRepository implements Repository {
         TableName: TABLE_NAME,
         Item: {
           timestamp: { S: `${Date.now().toString()}` },
-          lifecycleStage: { S: lifecycleStage },
-          serviceName: { S: serviceName },
+          pk: { S: lifecycleStage },
+          sk: { S: serviceName },
           spec: { S: JSON.stringify(spec) }
         }
       };
@@ -96,17 +96,15 @@ class DynamoRepository implements Repository {
    * @description Helper to get the right query parameters.
    */
   private getParams(lifecycleStage = 'production', serviceName?: string) {
-    const keyConditionExpression = serviceName
-      ? `lifecycleStage = :lifecycleStage AND serviceName = :serviceName`
-      : `lifecycleStage = :lifecycleStage`;
+    const keyConditionExpression = serviceName ? `pk = :pk AND sk = :sk` : `pk = :pk`;
 
     const expressionAttributeValues = serviceName
       ? {
-          ':lifecycleStage': { S: lifecycleStage },
-          ':serviceName': { S: serviceName }
+          ':pk': { S: lifecycleStage },
+          ':sk': { S: serviceName }
         }
       : {
-          ':lifecycleStage': { S: lifecycleStage }
+          ':pk': { S: lifecycleStage }
         };
 
     return {

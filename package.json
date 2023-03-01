@@ -1,7 +1,7 @@
 {
   "name": "catalogist",
   "description": "Catalogist is the easy way to catalog and make your software and (micro)services visible to your organization in a lightweight and developer-friendly way.",
-  "version": "1.0.1",
+  "version": "2.0.0",
   "author": "Mikael Vesavuori",
   "license": "MIT",
   "repository": {
@@ -25,9 +25,9 @@
   ],
   "homepage": "https://github.com/mikaelvesavuori/catalogist",
   "scripts": {
-    "start": "npx sls offline",
+    "start": "npx sls offline --reloadHandler",
     "deploy": "npx sls deploy",
-    "remove": "npx sls remove",
+    "teardown": "npx sls remove",
     "lint": "npx eslint './src/**/*.ts' --quiet --fix",
     "docs": "npx arkit && npm run docs:typedoc",
     "docs:typedoc": "npx typedoc --entryPoints './src' --entryPointStrategy 'expand' --exclude '**/*+(test).ts' --externalPattern '**/node_modules/**/*' --excludeExternals --out 'docs'",
@@ -65,7 +65,7 @@
     "ts-loader": "^9",
     "ts-node": "latest",
     "tslib": "latest",
-    "typedoc": "^0.23.23",
+    "typedoc": "^0.23.26",
     "typescript": "4"
   }
 }

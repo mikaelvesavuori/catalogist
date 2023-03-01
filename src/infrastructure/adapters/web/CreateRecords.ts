@@ -1,18 +1,19 @@
-import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
+import { APIGatewayProxyEventV2, APIGatewayProxyResult } from 'aws-lambda';
 
-import { createNewCatalogist } from '../../../domain/entities/Catalogist';
 import { createRecord } from '../../../usecases/createRecord';
+
 import { createNewDynamoRepository } from '../../repositories/DynamoDbRepo';
 
 /**
  * @description The controller for our service that creates new Catalogist records.
  */
-export async function handler(event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> {
+export async function handler(event: APIGatewayProxyEventV2): Promise<APIGatewayProxyResult> {
   try {
-    const body = event.body && typeof event.body === 'string' ? JSON.parse(event.body) : event.body;
+    const body =
+      event?.body && typeof event?.body === 'string' ? JSON.parse(event.body) : event.body;
+
     const repo = createNewDynamoRepository();
-    const catalogist = createNewCatalogist(repo);
-    await createRecord(catalogist, body);
+    await createRecord(repo, body);
 
     return {
       statusCode: 204,

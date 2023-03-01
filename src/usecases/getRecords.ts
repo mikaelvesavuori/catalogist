@@ -1,22 +1,24 @@
-import { APIGatewayProxyEvent, APIGatewayProxyEventQueryStringParameters } from 'aws-lambda';
+import { APIGatewayProxyEventV2, APIGatewayProxyEventQueryStringParameters } from 'aws-lambda';
 
-import { Catalogist } from '../interfaces/Catalogist';
+import { createNewCatalogist } from '../domain/entities/Catalogist';
+
+import { Repository } from '../interfaces/Repository';
 import { QueryStringParams } from '../interfaces/QueryStringParams';
+
 import { getQueryStringParams } from '../infrastructure/frameworks/getQueryStringParams';
 
 /**
  * @description The use-case for getting records from the repository.
  */
-export async function getRecords(
-  catalogist: Catalogist,
-  event: APIGatewayProxyEvent
-): Promise<any> {
+export async function getRecords(repo: Repository, event: APIGatewayProxyEventV2): Promise<any> {
+  const catalogist = createNewCatalogist(repo);
+
   const params: QueryStringParams = getQueryStringParams(
     event.queryStringParameters as APIGatewayProxyEventQueryStringParameters
   );
   const { queries } = params;
   let { lifecycleStage } = params;
-  if (!lifecycleStage) lifecycleStage = 'production'; // Set a fallback for the primary key
+  if (!lifecycleStage) lifecycleStage = 'production';
 
   // Handle multiple records
   if (queries && queries.length > 0) {

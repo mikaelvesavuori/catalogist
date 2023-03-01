@@ -51,6 +51,7 @@ The below commands are the most critical ones. See package.json for more command
 - `npm test`: Tests code
 - `npm run deploy`: Deploys code with Serverless Framework
 - `npm run build`: Package and build the code with Serverless Framework
+- `npm run teardown`: Removes the deployed stack
 
 ## Configuration
 
@@ -63,7 +64,9 @@ Run `npm start`.
 
 ## Deployment
 
-Run `npm run deploy`.
+First make sure that you have a fallback value for your AWS account number in `serverless.yml`, for example: `awsAccountNumber: ${opt:awsAccountNumber, '123412341234'}` or that you set the deployment script to use the flag, for example `npx sls deploy --awsAccountNumber 123412341234`.
+
+Then you can deploy with `npm run deploy`.
 
 ## Setting up for CI and automation
 
@@ -320,10 +323,7 @@ type Icon = 'documentation' | 'backlog' | 'dashboard' | 'recovery';
 
 ## Validation and sanitization
 
-There are several levels at which any input data is sanitized and validated.
-
-1. **API Gateway validator**: AWS API Gateway is set up to only allow payloads that correspond to the JSON Schema-based validator. See `api/create.validator.json`.
-2. **Code-level validation**: Input data is processed when `catalogist` attempts to form input data into a Manifest "value object". During that step we coerce the input into a new object (stringify, then parse as a new object), drop unknown keys, check the size of the remaining object, and also check for missing information. See `src/domain/valueObjects/Manifest.ts`.
+Input data is processed when `catalogist` attempts to form input data into a Manifest "value object". During that step we coerce the input into a new object (stringify, then parse as a new object), drop unknown keys, check the size of the remaining object, and also check for missing information. See `src/domain/valueObjects/Manifest.ts`.
 
 Because there is a bit of customization allowed, `catalogist` will only drop unknown keys from the root object and from within the `spec` object.
 
@@ -337,20 +337,13 @@ Because there is a bit of customization allowed, `catalogist` will only drop unk
 - You are allowed to use a maximum of 10 items in the `api`, `slo` and `links` arrays.
 - You are allowed to use a maximum of 100 items in the `relations` array.
 
-### API Gateway validator (using JSON schema)
-
-You can toy around with [an online JSON schema validator](https://json-schema-validator.herokuapp.com) if you want to test and verify any changes you might want make to the validator.
-
 ### Making changes to validation and sanitization
 
-Changes in validations need to happen in several places:
-
-- `api/create.validator.json` is a JSON Schema that handles the API Gateway validation
-- `src/domain/valueObjects/Manifest.ts` does the actual transformation and code-level sanitization/validation
+Changes in validations need to happen in `src/domain/valueObjects/Manifest.ts`.
 
 It's also advisable to update the documentation and types:
 
-- `api/schema.yml` represents the API schema, and therefore should be in sync with the above JSON Schema
+- `api/schema.yml` represents the API schema
 - `src/domain/interfaces/Manifest.ts` is the type of the Manifest
 
 ---

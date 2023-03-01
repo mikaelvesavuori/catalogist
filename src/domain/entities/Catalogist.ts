@@ -21,8 +21,6 @@ class CatalogistConcrete implements Catalogist {
 
   /**
    * @description Create a record.
-   * Primary (hash) key is "serviceName" field.
-   * Sort (range) key is "lifecycleStage" field.
    */
   async createRecord(manifest: Manifest): Promise<void> {
     await this.repo.updateItem(manifest);

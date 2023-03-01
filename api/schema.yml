@@ -5,7 +5,7 @@ info:
   description: Catalogist is the easy way to catalog and make your software and (micro)services visible to your organization in a lightweight and developer-friendly way.
 
 servers:
-  - url: https://RANDOM.execute-api.REGION.amazonaws.com/dev/
+  - url: https://RANDOM.execute-api.REGION.amazonaws.com/
     description: API server
 
 paths:

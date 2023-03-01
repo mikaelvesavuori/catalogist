@@ -3,12 +3,24 @@ service: catalogist
 provider:
   name: aws
   runtime: nodejs18.x
+  architecture: arm64
   stage: ${opt:stage, 'dev'}
   region:  ${opt:region, 'eu-north-1'}
   memorySize: ${opt:memory, 512}
-  timeout: 10
-  logRetentionInDays: 7
+  timeout: ${opt:timeout, 10}
+  logRetentionInDays: ${opt:logRetentionInDays, 7}
   versionFunctions: false
+  httpApi:
+    cors: true
+    #disableDefaultEndpoint: true
+    authorizers:
+      Authorizer:
+        functionName: Authorizer
+        resultTtlInSeconds: ${self:custom.config.aws.apiGatewayCachingTtl.${self:provider.stage}, '0'}
+        identitySource:
+          - $request.header.Authorization
+        type: request
+        enableSimpleResponses: true
   deploymentBucket:
     blockPublicAccess: true
     maxPreviousDeploymentArtifacts: 5
@@ -19,15 +31,6 @@ provider:
     Usage: ${self:service}
   apiGateway:
     minimumCompressionSize: 1024
-  iam:
-    role:
-      statements:
-      - Effect: Allow
-        Action:
-          - xray:PutTelemetryRecords
-          - xray:PutTraceSegments
-        Resource:
-          - "*"
 
 plugins:
   - serverless-esbuild
@@ -38,110 +41,79 @@ package:
   individually: true
 
 custom:
+  config:
+    apiKey: ${opt:apiKey, 'S_a@rI8OtHL2R3vawir0triVecOx7jak'} # Add your desired valid API key here or use the default
+    awsAccountNumber: ${opt:awsAccountNumber, '123412341234'} # Set this to your value if you want to use a fallback value
+    tableName: ${self:service}-${self:provider.stage}
   aws:
-    accountNumber: 123412341234
-    tableName: catalogist
-    databaseArn: arn:aws:dynamodb:${self:provider.region}:${self:custom.aws.accountNumber}:table/${self:custom.aws.tableName}
+    databaseArn: arn:aws:dynamodb:${aws:region}:${self:custom.config.awsAccountNumber}:table/${self:custom.config.tableName}
+    apiGatewayCachingTtl:
+      prod: 30
+      dev: 0
+      test: 0
+    apiGatewayCachingTtlValue: ${self:custom.aws.apiGatewayCachingTtl.${self:provider.stage}, self:custom.aws.apiGatewayCachingTtl.test} # See: https://forum.serverless.com/t/api-gateway-custom-authorizer-caching-problems/4695
 
 functions:
   Authorizer:
-    handler: src/infrastructure/adapters/web/Authorizer.handler
+    handler: src/infrastructure/authorizers/Authorizer.handler
     description: ${self:service} authorizer
+    environment:
+      API_KEY: ${self:custom.config.apiKey}
   CreateRecords:
     handler: src/infrastructure/adapters/web/CreateRecords.handler
     description: Create record
     events:
-      - http:
+      - httpApi:
           method: POST
           path: /record
-          request:
-            schema:
-              application/json: ${file(api/create.validator.json)}
           authorizer:
             name: Authorizer
-            resultTtlInSeconds: 30 # See: https://forum.serverless.com/t/api-gateway-custom-authorizer-caching-problems/4695
-            identitySource: method.request.header.Authorization
-            type: request
     iamRoleStatements:
       - Effect: "Allow"
         Action:
           - dynamodb:PutItem
         Resource: ${self:custom.aws.databaseArn}
     environment:
-      TABLE_NAME: ${self:custom.aws.tableName}
+      TABLE_NAME: ${self:custom.config.tableName}
   GetRecords:
     handler: src/infrastructure/adapters/web/GetRecords.handler
     description: Get records
     events:
-      - http:
+      - httpApi:
           method: GET
           path: /records
-          request:
-            parameters:
-              # These are the acceptable query string parameters; "false" means they are not required
-              querystrings:
-                lifecycleStage: false
-                serviceName: false
           authorizer:
             name: Authorizer
-            resultTtlInSeconds: 30 # See: https://forum.serverless.com/t/api-gateway-custom-authorizer-caching-problems/4695
-            identitySource: method.request.header.Authorization
-            type: request
     iamRoleStatements:
       - Effect: "Allow"
         Action:
           - dynamodb:Query
         Resource: ${self:custom.aws.databaseArn}
     environment:
-      TABLE_NAME: ${self:custom.aws.tableName}
+      TABLE_NAME: ${self:custom.config.tableName}
 
 resources:
   Resources:
     # DynamoDB configuration
     CatalogistTable:
       Type: AWS::DynamoDB::Table
+      DeletionPolicy: Retain
+      UpdateReplacePolicy: Retain
       Properties:
-        TableName: catalogist
+        TableName: ${self:custom.config.tableName}
         AttributeDefinitions:
-          - AttributeName: lifecycleStage
+          - AttributeName: pk
             AttributeType: S
-          - AttributeName: serviceName
+          - AttributeName: sk
             AttributeType: S
         KeySchema:
-          - AttributeName: lifecycleStage
+          - AttributeName: pk
             KeyType: HASH
-          - AttributeName: serviceName
+          - AttributeName: sk
             KeyType: RANGE
+        TimeToLiveSpecification:
+          AttributeName: expiresAt
+          Enabled: true
         BillingMode: PAY_PER_REQUEST
         PointInTimeRecoverySpecification:
           PointInTimeRecoveryEnabled: true
-    # API Gateway configuration
-    GatewayResponseDefault4XX:
-      Type: 'AWS::ApiGateway::GatewayResponse'
-      Properties:
-        ResponseParameters:
-          gatewayresponse.header.Access-Control-Allow-Origin: "'*'"
-          gatewayresponse.header.Access-Control-Allow-Headers: "'*'"
-        ResponseType: DEFAULT_4XX
-        RestApiId:
-          Ref: 'ApiGatewayRestApi'
-    AuthFailureExpiredGatewayResponse:
-      Type: 'AWS::ApiGateway::GatewayResponse'
-      Properties:
-        ResponseParameters:
-          gatewayresponse.header.Access-Control-Allow-Origin: "'*'"
-          gatewayresponse.header.Access-Control-Allow-Headers: "'*'"
-        ResponseType: EXPIRED_TOKEN
-        RestApiId:
-          Ref: 'ApiGatewayRestApi'
-        StatusCode: '401'
-    AuthFailureUnauthorizedGatewayResponse:
-      Type: 'AWS::ApiGateway::GatewayResponse'
-      Properties:
-        ResponseParameters:
-          gatewayresponse.header.Access-Control-Allow-Origin: "'*'"
-          gatewayresponse.header.Access-Control-Allow-Headers: "'*'"
-        ResponseType: UNAUTHORIZED
-        RestApiId:
-          Ref: 'ApiGatewayRestApi'
-        StatusCode: '401'
