@@ -52,6 +52,9 @@ custom:
       dev: 0
       test: 0
     apiGatewayCachingTtlValue: ${self:custom.aws.apiGatewayCachingTtl.${self:provider.stage}, self:custom.aws.apiGatewayCachingTtl.test} # See: https://forum.serverless.com/t/api-gateway-custom-authorizer-caching-problems/4695
+  esbuild:
+    bundle: true
+    minify: true
 
 functions:
   Authorizer:
