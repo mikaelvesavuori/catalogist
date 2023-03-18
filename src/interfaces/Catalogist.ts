@@ -5,5 +5,5 @@ import { Manifest } from './Manifest';
  */
 export interface Catalogist {
   createRecord(manifest: Manifest): Promise<void>;
-  getRecord(key: string, query?: string): Promise<Manifest[] | Record<string, unknown>[]>;
+  getRecord(repo: string, service?: string): Promise<Manifest[] | Record<string, unknown>[]>;
 }

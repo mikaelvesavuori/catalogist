@@ -4,15 +4,15 @@ provider:
   name: aws
   runtime: nodejs18.x
   architecture: arm64
-  stage: ${opt:stage, 'dev'}
+  stage: ${opt:stage, 'prod'}
   region:  ${opt:region, 'eu-north-1'}
-  memorySize: ${opt:memory, 512}
+  memorySize: ${opt:memory, 1024}
   timeout: ${opt:timeout, 10}
   logRetentionInDays: ${opt:logRetentionInDays, 7}
   versionFunctions: false
   httpApi:
-    cors: true
-    #disableDefaultEndpoint: true
+    cors: false
+    disableDefaultEndpoint: true
     authorizers:
       Authorizer:
         functionName: Authorizer
@@ -42,7 +42,7 @@ package:
 
 custom:
   config:
-    apiKey: ${opt:apiKey, 'S_a@rI8OtHL2R3vawir0triVecOx7jak'} # Add your desired valid API key here or use the default
+    apiKey: ${opt:apiKey, 'jdhop8dyn98aHJGa873hljajs'} # Add your desired valid API key here or use the default
     awsAccountNumber: ${opt:awsAccountNumber, '123412341234'} # Set this to your value if you want to use a fallback value
     tableName: ${self:service}-${self:provider.stage}
   aws:
@@ -62,8 +62,8 @@ functions:
     description: ${self:service} authorizer
     environment:
       API_KEY: ${self:custom.config.apiKey}
-  CreateRecords:
-    handler: src/infrastructure/adapters/web/CreateRecords.handler
+  CreateRecord:
+    handler: src/infrastructure/adapters/web/CreateRecord.handler
     description: Create record
     events:
       - httpApi:
@@ -77,14 +77,15 @@ functions:
           - dynamodb:PutItem
         Resource: ${self:custom.aws.databaseArn}
     environment:
+      REGION: ${aws:region}
       TABLE_NAME: ${self:custom.config.tableName}
-  GetRecords:
-    handler: src/infrastructure/adapters/web/GetRecords.handler
-    description: Get records
+  GetRecord:
+    handler: src/infrastructure/adapters/web/GetRecord.handler
+    description: Get record
     events:
       - httpApi:
           method: GET
-          path: /records
+          path: /record
           authorizer:
             name: Authorizer
     iamRoleStatements:
@@ -93,6 +94,7 @@ functions:
           - dynamodb:Query
         Resource: ${self:custom.aws.databaseArn}
     environment:
+      REGION: ${aws:region}
       TABLE_NAME: ${self:custom.config.tableName}
 
 resources:

@@ -1,23 +1,27 @@
 import { APIGatewayProxyEventV2, APIGatewayProxyResult } from 'aws-lambda';
 
-import { getRecords } from '../../../usecases/getRecords';
+import { createRecord } from '../../../usecases/createRecord';
+
 import { createNewDynamoRepository } from '../../repositories/DynamoDbRepo';
 
 /**
- * @description The controller for our service that gets Catalogist records.
+ * @description The controller for our service that creates new Catalogist records.
  */
 export async function handler(event: APIGatewayProxyEventV2): Promise<APIGatewayProxyResult> {
   try {
+    const body =
+      event?.body && typeof event?.body === 'string' ? JSON.parse(event.body) : event.body;
+
     const repo = createNewDynamoRepository();
-    const data = await getRecords(repo, event);
+    await createRecord(repo, body);
 
     return {
-      statusCode: 200,
-      body: JSON.stringify(data)
+      statusCode: 204,
+      body: ''
     };
   } catch (error: any) {
     return {
-      statusCode: 500,
+      statusCode: error.cause?.statusCode || 500,
       body: JSON.stringify(error.message)
     };
   }

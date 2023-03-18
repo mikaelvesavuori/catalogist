@@ -13,44 +13,44 @@ export function createNewCatalogist(repo: Repository): Catalogist {
  * @description The concrete implementation for Catalogist.
  */
 class CatalogistConcrete implements Catalogist {
-  repo: Repository;
+  repository: Repository;
 
-  constructor(repo: Repository) {
-    this.repo = repo;
+  constructor(repository: Repository) {
+    this.repository = repository;
   }
 
   /**
    * @description Create a record.
    */
   async createRecord(manifest: Manifest): Promise<void> {
-    await this.repo.updateItem(manifest);
+    await this.repository.updateItem(manifest);
     console.log('Created record');
   }
 
   /**
    * @description Get a record using the provided repository.
    */
-  async getRecord(key: string, query?: string): Promise<Manifest[] | Record<string, unknown>[]> {
-    const records = await this.repo.getData(key, query);
+  async getRecord(repo: string, service?: string): Promise<Manifest[] | Record<string, unknown>[]> {
+    const records = await this.repository.getData(repo, service);
+
     if (records && records.length === 0) return records;
-    else {
-      return records.map((record: any) => {
-        const { spec, relations, support, slo, api, metadata, links, timestamp } = record;
 
-        // Dump fields that we only needed for the persisted record
-        const fixedRecord: Manifest = {
-          spec,
-          relations,
-          support,
-          slo,
-          api,
-          metadata,
-          links,
-          timestamp
-        };
+    return records.map((record: any) => {
+      const { spec, relations, support, slo, api, metadata, links, timestamp } = record;
 
-        return fixedRecord;
-      });
-    }
+      // Dump fields that we only needed for the persisted record
+      const fixedRecord: Manifest = {
+        spec,
+        relations,
+        support,
+        api,
+        slo,
+        links,
+        metadata,
+        timestamp
+      };
+
+      return fixedRecord;
+    });
   }
 }

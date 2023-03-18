@@ -1,51 +1,23 @@
 import { getQueryStringParams } from '../../src/infrastructure/frameworks/getQueryStringParams';
 
-import { UnknownKeyError } from '../../src/application/errors/UnknownKeyError';
-
-const validResponse = { queries: ['my-service'], lifecycleStage: 'production' };
-
-describe('Failure cases', () => {
-  test('It should throw an UnknownKeyError when given an unknown key', () => {
-    const data = {
-      asdf: 123
-    };
-    expect(() => getQueryStringParams(data)).toThrowError(UnknownKeyError);
-  });
-});
-
 describe('Success cases', () => {
-  test('It should return an empty array when given no input', () => {
+  test('It should return an empty QueryStringParams object when given no input', () => {
     // @ts-ignore
-    expect(getQueryStringParams()).toMatchObject({ queries: [] });
+    expect(getQueryStringParams()).toMatchObject({ repo: '', service: '' });
   });
 
-  test('It should return an array when given the serviceName as key', () => {
+  test('It should work when given a repo', () => {
     const data = {
-      serviceName: 'my-service',
-      lifecycleStage: 'some-stage'
+      repo: 'someorg/somerepo'
     };
-    expect(getQueryStringParams(data)).toMatchObject({
-      queries: ['my-service'],
-      lifecycleStage: 'some-stage'
-    });
+    expect(getQueryStringParams(data)).toMatchObject(data);
   });
 
-  test('It should set the lifecycleStage to "some-stage" when lifecycleStage is provided', () => {
+  test('It should work when given both a repo name and service name ', () => {
     const data = {
-      serviceName: 'my-service',
-      lifecycleStage: 'some-stage'
+      repo: 'someorg/somerepo',
+      service: 'my-service'
     };
-    expect(getQueryStringParams(data)).toMatchObject({
-      queries: ['my-service'],
-      lifecycleStage: 'some-stage'
-    });
-  });
-
-  test('It should set the lifecycleStage to "production" when lifecycleStage is missing', () => {
-    const data = {
-      lifecycleStage: 'production',
-      serviceName: 'my-service'
-    };
-    expect(getQueryStringParams(data)).toMatchObject(validResponse);
+    expect(getQueryStringParams(data)).toMatchObject(data);
   });
 });

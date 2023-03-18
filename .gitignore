@@ -6,7 +6,7 @@ build/
 .esbuild/
 
 # Files generated from tests
-/jest-coverage/**
+jest-coverage/
 **/jest-coverage/**
 
 # No Yarn stuff

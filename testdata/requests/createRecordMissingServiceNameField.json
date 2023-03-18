@@ -1,19 +1,6 @@
 {
   "spec": {
-    "lifecycleStage": "production"
-  },
-  "support": {},
-  "slo": [
-    {
-      "description": "asdf",
-      "asdf": "1234"
-    }
-  ],
-  "api": [],
-  "metadata": {},
-  "links": [
-    {
-      "something": "else"
-    }
-  ]
+    "repo": "someorg/somerepo",
+    "description": "My API"
+  }
 }

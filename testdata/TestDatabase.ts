@@ -1,20 +1,20 @@
-/**
- * @description Records in "someotherlifecycle" lifecycleStage
- */
-export const dataSomeotherLifecycle: any = [
+import { Manifest } from '../src/interfaces/Manifest';
+
+export const testdata: Manifest[] = [
   {
     spec: {
-      serviceType: 'service',
-      lifecycleStage: 'someotherlifecycle',
-      description: 'My service',
-      serviceName: 'my-service',
-      team: 'ThatAwesomeTeam',
+      repo: 'someorg/somerepo',
+      name: 'my-api',
+      description: 'My API',
+      kind: 'api',
+      lifecycleStage: 'somelifecycle',
+      version: '1.0.0',
       responsible: 'Someguy Someguyson',
+      team: 'ThatAwesomeTeam',
       system: 'some-system',
       domain: 'some-domain',
-      tags: ['typescript', 'backend'],
-      dataSensitivity: 'Public',
-      version: '1.0.0'
+      dataSensitivity: 'public',
+      tags: ['typescript', 'backend']
     },
     relations: ['my-other-service'],
     support: {
@@ -23,14 +23,17 @@ export const dataSomeotherLifecycle: any = [
     slo: [
       {
         description: 'Max latency must be 350ms for the 90th percentile',
-        level: '99.9',
-        percentile: 'p90',
-        maxLatency: 350
+        type: 'latency',
+        implementation:
+          '(sum:trace.aws.lambda.hits.by_http_status{http.status_class:2xx AND service IN (demoservice-user,demoservice-greet)} by {service}.as_count() - sum:trace.aws.lambda.errors.by_http_status{http.status_class:5xx AND service IN (demoservice-user,demoservice-greet)} by {service}.as_count()) / (sum:trace.aws.lambda.hits{service IN (demoservice-user,demoservice-greet)} by {service}.as_count())',
+        target: '350ms',
+        period: 30
       }
     ],
     api: [
       {
-        MyProjectApi: './api/schema.yml'
+        name: 'My API',
+        schemaPath: './api/schema.yml'
       }
     ],
     metadata: {},
@@ -44,90 +47,40 @@ export const dataSomeotherLifecycle: any = [
   },
   {
     spec: {
-      serviceType: 'service',
-      lifecycleStage: 'production',
-      description: 'My other service',
-      serviceName: 'my-other-service',
-      team: 'ThatAwesomeTeam',
+      repo: 'someorg/somerepo',
+      name: 'my-other-api',
+      description: 'My API',
+      kind: 'api',
+      lifecycleStage: 'somelifecycle',
+      version: '1.0.0',
       responsible: 'Someguy Someguyson',
+      team: 'ThatAwesomeTeam',
       system: 'some-system',
       domain: 'some-domain',
-      tags: ['typescript', 'backend'],
-      dataSensitivity: 'Public',
-      version: '1.0.0'
+      dataSensitivity: 'public',
+      tags: ['typescript', 'backend']
     },
-    relations: ['my-service'],
+    relations: ['my-other-service'],
     support: {
       resolverGroup: 'ThatAwesomeTeam'
     },
     slo: [
       {
         description: 'Max latency must be 350ms for the 90th percentile',
-        level: '99.9',
-        percentile: 'p90',
-        maxLatency: 350
+        type: 'latency',
+        implementation:
+          '(sum:trace.aws.lambda.hits.by_http_status{http.status_class:2xx AND service IN (demoservice-user,demoservice-greet)} by {service}.as_count() - sum:trace.aws.lambda.errors.by_http_status{http.status_class:5xx AND service IN (demoservice-user,demoservice-greet)} by {service}.as_count()) / (sum:trace.aws.lambda.hits{service IN (demoservice-user,demoservice-greet)} by {service}.as_count())',
+        target: '350ms',
+        period: 30
       }
     ],
     api: [
       {
-        MyProjectApi: './api/schema.yml'
+        name: 'My API',
+        schemaPath: './api/schema.yml'
       }
     ],
-    metadata: {
-      arkitOutputFolder: './diagrams/',
-      sbomOutputFile: './sbom-output.txt',
-      typedocOutputFolder: './typedoc-docs/'
-    },
-    links: [
-      {
-        url: 'https://my-confluence.atlassian.net/wiki/spaces/DEV/pages/123456789/',
-        title: 'Confluence documentation',
-        icon: 'documentation'
-      }
-    ]
-  }
-];
-
-/**
- * @description Records in "production" lifecycleStage
- */
-export const dataProduction: any = [
-  {
-    spec: {
-      type: 'service',
-      lifecycleStage: 'production',
-      description: 'My other service',
-      serviceName: 'my-other-service',
-      team: 'ThatAwesomeTeam',
-      responsible: 'Someguy Someguyson',
-      system: 'some-system',
-      domain: 'some-domain',
-      tags: ['typescript', 'backend'],
-      dataSensitivity: 'Public',
-      version: '1.0.0'
-    },
-    relations: ['my-service'],
-    support: {
-      resolverGroup: 'ThatAwesomeTeam'
-    },
-    slo: [
-      {
-        description: 'Max latency must be 350ms for the 90th percentile',
-        level: '99.9',
-        percentile: 'p90',
-        maxLatency: 350
-      }
-    ],
-    api: [
-      {
-        MyProjectApi: './api/schema.yml'
-      }
-    ],
-    metadata: {
-      arkitOutputFolder: './diagrams/',
-      sbomOutputFile: './sbom-output.txt',
-      typedocOutputFolder: './typedoc-docs/'
-    },
+    metadata: {},
     links: [
       {
         url: 'https://my-confluence.atlassian.net/wiki/spaces/DEV/pages/123456789/',
@@ -138,46 +91,18 @@ export const dataProduction: any = [
   },
   {
     spec: {
-      type: 'service',
-      lifecycleStage: 'production',
+      repo: 'someorg/someotherrepo',
+      name: 'my-service',
       description: 'My service',
-      serviceName: 'my-service',
-      team: 'ThatAwesomeTeam',
+      kind: 'service',
+      lifecycleStage: 'somelifecycle',
+      version: '3.0.0',
       responsible: 'Someguy Someguyson',
+      team: 'SomeOtherTeam',
       system: 'some-system',
       domain: 'some-domain',
-      tags: ['typescript', 'backend'],
-      dataSensitivity: 'Public',
-      version: '1.0.0'
-    },
-    relations: ['my-other-service'],
-    support: {
-      resolverGroup: 'ThatAwesomeTeam'
-    },
-    slo: [
-      {
-        description: 'Max latency must be 350ms for the 90th percentile',
-        level: '99.9',
-        percentile: 'p90',
-        maxLatency: 350
-      }
-    ],
-    api: [
-      {
-        MyProjectApi: './api/schema.yml'
-      }
-    ],
-    metadata: {
-      arkitOutputFolder: './diagrams/',
-      sbomOutputFile: './sbom-output.txt',
-      typedocOutputFolder: './typedoc-docs/'
-    },
-    links: [
-      {
-        url: 'https://my-confluence.atlassian.net/wiki/spaces/DEV/pages/123456789/',
-        title: 'Confluence documentation',
-        icon: 'documentation'
-      }
-    ]
+      dataSensitivity: 'public',
+      tags: ['typescript', 'backend']
+    }
   }
 ];

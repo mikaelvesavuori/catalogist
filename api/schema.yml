@@ -1,17 +1,18 @@
 openapi: 3.0.0
 info:
-  version: 1.0.0
+  version: 3.0.0
   title: Catalogist
   description: Catalogist is the easy way to catalog and make your software and (micro)services visible to your organization in a lightweight and developer-friendly way.
 
 servers:
-  - url: https://RANDOM.execute-api.REGION.amazonaws.com/
+  - url: https://RANDOM.execute-api.REGION.amazonaws.com
     description: API server
 
 paths:
-  /records:
+  /record:
     get:
-      description: Get records
+      description: Get record
+      operationId: getRecord
       responses:
         default:
           $ref: '#/components/responses/401'
@@ -33,29 +34,22 @@ paths:
           $ref: '#/components/responses/429'
       parameters:
         - in: query
-          name: lifecycleStage
-          description: What lifecycleStage should be used?
-          required: false
+          name: repo
+          description: What is the name of the repository (e.g. "someorg/somerepo")?
+          required: true
           schema:
             type: string
-            minLength: 1
-            maxLength: 50
-            pattern: /[^a-z0-9@åäöøáéíóúñü\.\-_]/
         - in: query
-          name: serviceName
-          description: What are the service name(s)?
+          name: service
+          description: What is the name of the service?
           required: false
           schema:
             type: string
-            minLength: 1
-            maxLength: 500
-            pattern: /[^a-z0-9@åäöøáéíóúñü\.\-_]/
       security:
         - apiKey: []
-
-  /record:
     post:
       description: Create record
+      operationId: createRecord
       responses:
         default:
           $ref: '#/components/responses/403'
@@ -89,6 +83,8 @@ components:
       properties:
         spec:
           $ref: '#/components/schemas/Spec'
+        relations:
+          $ref: '#/components/schemas/Relations'
         support:
           $ref: '#/components/schemas/Support'
         slo:
@@ -102,188 +98,209 @@ components:
     Spec:
       type: object
       required:
-        - "serviceName"
+        - repo
+        - name
       additionalProperties: false
       properties:
-        serviceName:
+        repo:
           type: string
-          description: The service name.
+          description: Name of the repository where the code base is stored.
           minLength: 1
-          maxLength: 50
-          pattern: /[^a-z0-9@åäöøáéíóúñü\.\-_]/
-        serviceType:
+          maxLength: 500
+          example: someorg/somerepo
+        name:
           type: string
-          description: Describes which type of solution this is.
+          description: Name of the component.
           minLength: 1
-          maxLength: 50
-          pattern: /[^a-z0-9@åäöøáéíóúñü\.\-_]/
-        lifecycleStage:
-          type: string
-          description: Describes which stage of the lifecycle this solution is in. Defaults to "production".
-          minLength: 1
-          maxLength: 50
-          pattern: /[^a-z0-9@åäöøáéíóúñü\.\-_]/
-        version:
-          type: string
-          description: The version of the service.
-          minLength: 1
-          maxLength: 50
-          pattern: /[^a-z0-9@åäöøáéíóúñü\.\-_]/
+          maxLength: 500
+          example: my-service
         description:
           type: string
-          description: Description of the service.
+          description: Describes the component.
           minLength: 1
-          maxLength: 50
-          pattern: /[^a-z0-9@åäöøáéíóúñü\.\-_]/
+          maxLength: 1500
+          example: My Service handles all the transactions for my book club
+        kind:
+          type: string
+          description: Describes which type of solution this is.
+          enum:
+            - service
+            - api
+            - component
+            - cots
+            - product
+            - external
+            - other
+        lifecycleStage:
+          type: string
+          description: The lifecycle stage this component is in.
+          minLength: 1
+          maxLength: 500
+          example: prod
+        version:
+          type: string
+          description: The version of the component.
+          minLength: 1
+          maxLength: 500
+          example: 1.0.0
         responsible:
           type: string
-          description: Who is responsible for the solution?
+          description: An individual that is responsible for this component.
           minLength: 1
-          maxLength: 50
-          pattern: /[^a-z0-9@åäöøáéíóúñü\.\-_]/
+          maxLength: 500
+          example: Someguy Someguyson
         team:
           type: string
-          description: The team that owns this solution.
+          description: The team responsible for this component.
           minLength: 1
-          maxLength: 50
-          pattern: /[^a-z0-9@åäöøáéíóúñü\.\-_]/
+          maxLength: 500
+          example: ThatAwesomeTeam
         system:
           type: string
-          description: The system this solution is part of.
+          description: The system this component is part of.
           minLength: 1
-          maxLength: 50
-          pattern: /[^a-z0-9@åäöøáéíóúñü\.\-_]/
+          maxLength: 500
+          example: Transactions
         domain:
           type: string
-          description: The domain this solution/system is part of.
+          description: The domain this component is part of.
           minLength: 1
-          maxLength: 50
-          pattern: /[^a-z0-9@åäöøáéíóúñü\.\-_]/
+          maxLength: 500
+          example: BookClub
         dataSensitivity:
           type: string
-          description: The overall data sensitivity of this solution.
-          minLength: 1
-          maxLength: 50
-          pattern: /[^a-z0-9@åäöøáéíóúñü\.\-_]/
+          description: The level of data sensitivity.
+          enum:
+            - public
+            - internal
+            - secret
+            - other
         tags:
           type: array
-          maxItems: 10
+          description: An optional list of tags.
+          maxItems: 20
           items:
             type: string
             minLength: 1
-            maxLength: 50
-            pattern: /[^a-z0-9@åäöøáéíóúñü\.\-_]/
+            maxLength: 500
     Relations:
       type: array
-      maxItems: 100
+      maxItems: 50
       items:
         type: string
         minLength: 1
-        maxLength: 50
-        pattern: /[^a-z0-9@åäöøáéíóúñü\.\-_]/
+        maxLength: 500
     Support:
       type: object
       additionalProperties:
         type: string
         minLength: 1
-        maxLength: 50
-        pattern: /[^a-z0-9@åäöøáéíóúñü\.\-_]/
+        maxLength: 500
     Slo:
       type: array
-      maxItems: 10
+      maxItems: 20
       items:
         $ref: '#/components/schemas/SloItem'
     SloItem:
       type: object
+      description: Service level objective (SLO) information.
       required:
-        - "description"
-      additionalProperties:
-        type: string
-        minLength: 1
-        maxLength: 50
-        pattern: /[^a-z0-9@åäöøáéíóúñü\.\-_]/
+        - description
+        - type
+        - target
+        - period
       properties:
         description:
           type: string
-          description: Description of the service-level objective.
+          description: Describes what the SLO does and measures.
           minLength: 1
-          maxLength: 50
-          pattern: /[^a-z0-9@åäöøáéíóúñü\.\-_]/
-        level:
+          maxLength: 500
+        type:
           type: string
-          description: What is the level of the SLO?
-          minLength: 1
-          maxLength: 50
-          pattern: /[^a-z0-9@åäöøáéíóúñü\.\-_]/
-        percentile:
+          description: What type of SLO is this?
+          enum:
+            - latency
+            - availability
+            - correctness
+            - other
+        implementation:
           type: string
-          description: The percentile to represent this SLO.
+          description: Optional implementation query.
           minLength: 1
-          maxLength: 50
-          pattern: /[^a-z0-9@åäöøáéíóúñü\.\-_]/
-        maxLatency:
+          maxLength: 1500
+        target:
           type: string
-          description: Max latency of the SLO.
+          description: Compliance target, typically described as a percentage, percentile, or duration.
           minLength: 1
-          maxLength: 50
-          pattern: /[^a-z0-9@åäöøáéíóúñü\.\-_]/
+          maxLength: 500
+          example: "99.9%"
+        period:
+          type: number
+          description: Compliance period in days.
     Api:
       type: array
-      maxItems: 10
+      maxItems: 20
       items:
         $ref: '#/components/schemas/ApiItem'
     ApiItem:
       type: object
+      required:
+        - name
       additionalProperties:
         type: string
         minLength: 1
-        maxLength: 50
-        pattern: /[^a-z0-9@åäöøáéíóúñü\.\-_]/
+        maxLength: 500
       properties:
-        serviceName:
+        name:
           type: string
-          description: The name of the API.
+          description: Name of the API.
           minLength: 1
-          maxLength: 50
-          pattern: /[^a-z0-9@åäöøáéíóúñü\.\-_]/
+          maxLength: 500
+        schemaPath:
+          type: string
+          description: Path to a schema or definition of the API.
+          minLength: 1
+          maxLength: 500
     Metadata:
       type: object
       additionalProperties:
         type: string
         minLength: 1
-        maxLength: 50
-        pattern: /[^a-z0-9@åäöøáéíóúñü\.\-_]/
+        maxLength: 500
     Links:
       type: array
-      maxItems: 10
+      maxItems: 20
       items:
         $ref: '#/components/schemas/LinkItem'
     LinkItem:
       type: object
       additionalProperties: false
       required:
-        - "url"
-        - "title"
-        - "icon"
+        - url
+        - title
+        - icon
       properties:
         url:
           type: string
           description: URL for the link.
           minLength: 1
-          maxLength: 50
-          pattern: /[^a-z0-9@åäöøáéíóúñü\.\-_]/
+          maxLength: 500
         title:
           type: string
           description: Title and description of the link.
           minLength: 1
-          maxLength: 50
-          pattern: /[^a-z0-9@åäöøáéíóúñü\.\-_]/
+          maxLength: 500
         icon:
           type: string
           description: What type of icon should represent this?
-          minLength: 1
-          maxLength: 50
-          pattern: /[^a-z0-9@åäöøáéíóúñü\.\-_]/
+          enum:
+            - web
+            - api
+            - service
+            - documentation
+            - task
+            - dashboard
+            - other
 
   requestBodies:
     CreateRecord:
@@ -303,9 +320,6 @@ components:
             title: Unauthorized
             type: string
             example: Unauthorized
-            minLength: 3
-            maxLength: 50
-            pattern: ^[A-Za-z0-9.!\s]{3,30}$
     "403":
       description: Forbidden
       content:
@@ -314,9 +328,6 @@ components:
             title: Forbidden
             type: string
             example: Forbidden
-            minLength: 3
-            maxLength: 50
-            pattern: ^[A-Za-z0-9.!\s]{3,30}$
     "404":
       description: Not found
       content:
@@ -325,9 +336,6 @@ components:
             title: Not found
             type: string
             example: Not found
-            minLength: 3
-            maxLength: 50
-            pattern: ^[A-Za-z0-9.!\s]{3,30}$
     "406":
       description: Not acceptable
       content:
@@ -336,9 +344,6 @@ components:
             title: Not acceptable
             type: string
             example: Not acceptable
-            minLength: 3
-            maxLength: 50
-            pattern: ^[A-Za-z0-9.!\s]{3,30}$
     "429":
       description: Too many requests
       content:
@@ -347,6 +352,3 @@ components:
             title: Too many requests
             type: string
             example: Too many requests
-            minLength: 3
-            maxLength: 50
-            pattern: ^[A-Za-z0-9.!\s]{3,30}$

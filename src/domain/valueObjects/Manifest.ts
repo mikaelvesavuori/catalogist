@@ -1,4 +1,4 @@
-import { Manifest } from '../../interfaces/Manifest';
+import { LinkItem, Manifest, SloItem } from '../../interfaces/Manifest';
 
 import { SizeError } from '../../application/errors/SizeError';
 import { MissingSpecKeysError } from '../../application/errors/MissingSpecKeysError';
@@ -17,11 +17,37 @@ export function createNewManifest(payload: any): Manifest {
  */
 export class ManifestConstructor {
   manifest: Manifest;
-  sizeThreshold = 10000;
-  maxArrayLength = 10;
-  maxRelationsArrayLength = 100;
+  sizeThreshold = 20000;
+  maxArrayLength = 20;
+  maxRelationsArrayLength = 50;
+  validKeys = {};
+  validLaxKeys: string[] = [];
 
   constructor(payload: any) {
+    // Setup
+    this.validKeys = {
+      base: ['spec', 'relations', 'support', 'api', 'slo', 'links', 'metadata'],
+      spec: [
+        'repo',
+        'name',
+        'description',
+        'kind',
+        'lifecycleStage',
+        'version',
+        'responsible',
+        'team',
+        'system',
+        'domain',
+        'dataSensitivity',
+        'tags'
+      ],
+      api: ['name', 'schemaPath'],
+      slo: ['description', 'type', 'implementation', 'target', 'period'],
+      links: ['title', 'url', 'icon']
+    };
+    this.validLaxKeys = ['description', 'implementation'];
+
+    // Conduct activities
     this.validatePayload(payload);
     const cleanedPayload = this.cleanPayload(payload);
     this.manifest = cleanedPayload;
@@ -31,66 +57,126 @@ export class ManifestConstructor {
    * @description Do basic field validation of the incoming data object.
    */
   private validatePayload(body: Manifest | Record<string, unknown>): void {
-    const payload: any = body;
+    const payload: Record<string, any> = body;
 
-    // Ensure that we follow some meaningful max size cap
-    const stringifiedLength = JSON.stringify(payload).length;
-    if (stringifiedLength >= this.sizeThreshold) throw new SizeError('Object too large!');
+    this.validateRequiredProperties(payload);
+    this.validateSize(payload);
+    this.validateArrayLengths(payload);
+    this.validateSloPeriods(payload.slo);
+    this.validateSloTypes(payload.slo);
+    this.validateLinkIcon(payload.links);
+    this.validateDataSensitivity(payload.spec.dataSensitivity);
+    this.validateKind(payload.spec.kind);
+  }
 
+  /**
+   * @description Validate required properties.
+   */
+  private validateRequiredProperties(payload: Record<string, any>) {
     if (!payload.hasOwnProperty('spec'))
       throw new ValidationError('Payload is missing required field "spec"!');
+  }
 
-    if (payload.relations && payload.relations.length > this.maxRelationsArrayLength)
+  /**
+   * @description Ensure that we follow some meaningful max size cap.
+   */
+  private validateSize(payload: Record<string, any>) {
+    const stringifiedLength = JSON.stringify(payload).length;
+    if (stringifiedLength >= this.sizeThreshold) throw new SizeError('Object too large!');
+  }
+
+  /**
+   * @description Validate array lengths.
+   */
+  private validateArrayLengths(payload: Record<string, any>) {
+    if (payload?.relations?.length > this.maxRelationsArrayLength)
       throw new ValidationError('Payload has too many items in "relations" array!');
-    if (payload.spec.tags && payload.spec.tags.length > this.maxArrayLength)
+    if (payload?.spec?.tags?.length > this.maxArrayLength)
       throw new ValidationError('Payload has too many items in "tags" array!');
-    if (payload.api && payload.api.length > this.maxArrayLength)
+    if (payload?.api?.length > this.maxArrayLength)
       throw new ValidationError('Payload has too many items in "api" array!');
-    if (payload.slo && payload.slo.length > this.maxArrayLength)
+    if (payload?.slo?.length > this.maxArrayLength)
       throw new ValidationError('Payload has too many items in "slo" array!');
-    if (payload.links && payload.links.length > this.maxArrayLength)
+    if (payload?.links?.length > this.maxArrayLength)
       throw new ValidationError('Payload has too many items in "links" array!');
   }
 
   /**
-   * @description Get a list of valid keys for the input validation.
-   * Some keys have user-defined key names, so we skip those.
+   * @description Validate that SLOs have a valid period set.
    */
-  private getValidKeys() {
-    const validKeys: any = {
-      base: ['spec', 'relations', 'support', 'slo', 'api', 'metadata', 'links'],
-      spec: [
-        'serviceName',
-        'serviceType',
-        'lifecycleStage',
-        'version',
-        'description',
-        'responsible',
-        'team',
-        'system',
-        'domain',
-        'dataSensitivity',
-        'tags'
-      ],
-      slo: ['description', 'level', 'percentile', 'maxLatency'],
-      links: ['title', 'url', 'icon']
-    };
+  private validateSloPeriods(slos: SloItem[]) {
+    if (slos && slos.length > 0)
+      slos.forEach((slo: SloItem) => {
+        if (slo.period < 1 || slo.period > 365)
+          throw new ValidationError(
+            'SLO period is out of bounds, it must be between 1 and 365 days!'
+          );
+      });
+  }
 
-    return validKeys;
+  /**
+   * @description Validate the SLO types.
+   */
+  private validateSloTypes(slos: SloItem[]) {
+    const validValues = ['latency', 'availability', 'correctness', 'other'];
+
+    if (slos && slos.length > 0)
+      slos.forEach((slo: SloItem) => {
+        if (validValues.includes(slo.type)) return;
+        throw new ValidationError(
+          'Invalid "type" value received! It must be one of: "latency", "availability", "correctness" or "other".'
+        );
+      });
+  }
+
+  /**
+   * @description Validate the link icon input.
+   */
+  private validateLinkIcon(links: LinkItem[]) {
+    const validValues = ['web', 'api', 'service', 'documentation', 'task', 'dashboard', 'other'];
+
+    if (links && links.length > 0)
+      links.forEach((link: LinkItem) => {
+        if (!link.icon || validValues.includes(link.icon)) return;
+        throw new ValidationError(
+          'Invalid "icon" value received! It must be one of: "web", "api", "service", "documentation", "task", "dashboard" or "other".'
+        );
+      });
+  }
+
+  /**
+   * @description Validate the data sensitivity input.
+   */
+  private validateDataSensitivity(input: string) {
+    const validValues = ['public', 'internal', 'secret', 'other'];
+    if (!input || validValues.includes(input)) return;
+    throw new ValidationError(
+      'Invalid "dataSensitivity" value received! It must be one of: "public", "internal", "secret" or "other".'
+    );
+  }
+
+  /**
+   * @description Validate the (component) kind input.
+   */
+  private validateKind(input: string) {
+    const validValues = ['service', 'api', 'component', 'cots', 'product', 'external', 'other'];
+    if (!input || validValues.includes(input)) return;
+    throw new ValidationError(
+      'Invalid "kind" value received! It must be one of: "service", "api", "component", "cots", "product", "external" or "other".'
+    );
   }
 
   /**
    * @description Sanitize the incoming payload.
    */
   private cleanPayload(payload: any): Manifest {
-    const validKeys = this.getValidKeys();
+    const validKeys: Record<string, any> = this.validKeys;
 
     // Coerce the payload into a new object that does not include anything that is not serializable
     let cleanedPayload = JSON.parse(JSON.stringify(payload));
 
     // Check for missing required keys
-    if (!cleanedPayload.spec['serviceName'])
-      throw new MissingSpecKeysError('Missing required key: serviceName!');
+    if (!cleanedPayload.spec['name']) throw new MissingSpecKeysError('Missing required key: name!');
 
     // Remove any unknown keys/fields from base and `spec` fields
     cleanedPayload = this.deleteUnknownFields(payload, validKeys['base']);
@@ -110,14 +196,6 @@ export class ManifestConstructor {
       'support',
       'metadata'
     ]);
-
-    // Use fallback value if missing "lifecycleStage" key
-    if (!cleanedPayload.spec['lifecycleStage']) {
-      console.log(
-        "Payload was missing an explicit lifecycleStage key, so it will fall back to using 'production' as its value"
-      );
-      cleanedPayload.spec['lifecycleStage'] = 'production';
-    }
 
     // Sanitize the payload (max lengths, allow only certain characters...)
     const sanitizedPayload = this.createSanitizedPayload(cleanedPayload);
@@ -194,19 +272,32 @@ export class ManifestConstructor {
    */
   private sanitizeObjects(item: any) {
     const sanitizedObject: any = {};
+    const laxKeys = this.validLaxKeys;
 
     Object.keys(item).forEach((objKey: string, index: number) => {
       const sanitizedKey = this.sanitizeString(objKey);
       const sanitizedValue = (() => {
-        const value = Object.values(item)[index];
+        const value = Object.values(item)[index] as unknown as string | number;
+
+        if (laxKeys.includes(sanitizedKey.toString()))
+          return this.sanitizeLaxString(value as string);
+
         if (Array.isArray(value))
           return value.map((arrValue: string) => this.sanitizeString(arrValue, true));
-        else return this.sanitizeString(value as string, true);
+        else return this.sanitizeString(value, true);
       })();
       sanitizedObject[sanitizedKey] = sanitizedValue;
     });
 
     return sanitizedObject;
+  }
+
+  /**
+   * @description Does a special, less harsh treatment for strings.
+   */
+  private sanitizeLaxString(value: string) {
+    const regexValues = new RegExp(/\\/gim); // Remove possibility of escaping
+    return value.replace(regexValues, '').trim().substring(0, 1500);
   }
 
   /**

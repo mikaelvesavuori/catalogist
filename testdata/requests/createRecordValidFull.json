@@ -1,11 +1,22 @@
 {
   "spec": {
     "repo": "someorg/somerepo",
-    "name": "my-service",
-    "lifecycleStage": 123,
-    "something": {}
+    "name": "my-api",
+    "description": "My API",
+    "kind": "api",
+    "lifecycleStage": "production",
+    "version": "1.0.0",
+    "responsible": "Someguy Someguyson",
+    "team": "ThatAwesomeTeam",
+    "system": "some-system",
+    "domain": "some-domain",
+    "dataSensitivity": "public",
+    "tags": ["typescript", "backend"]
   },
-  "support": {},
+  "relations": ["my-other-service"],
+  "support": {
+    "resolverGroup": "ThatAwesomeTeam"
+  },
   "slo": [
     {
       "description": "Max latency must be 350ms for the 90th percentile",
@@ -15,12 +26,18 @@
       "period": 30
     }
   ],
-  "api": [],
+  "api": [
+    {
+      "name": "My API",
+      "schemaPath": "./api/schema.yml"
+    }
+  ],
   "metadata": {},
   "links": [
     {
-      "something": "else"
+      "url": "https://my-confluence.atlassian.net/wiki/spaces/DEV/pages/123456789/",
+      "title": "Confluence documentation",
+      "icon": "documentation"
     }
-  ],
-  "something": {}
+  ]
 }

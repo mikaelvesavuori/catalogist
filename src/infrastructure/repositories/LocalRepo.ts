@@ -1,7 +1,7 @@
 import { Manifest } from '../../interfaces/Manifest';
 import { Repository } from '../../interfaces/Repository';
 
-import { dataSomeotherLifecycle, dataProduction } from '../../../testdata/TestDatabase';
+import { testdata } from '../../../testdata/TestDatabase';
 
 /**
  * @description Factory function for local repository.
@@ -14,24 +14,11 @@ export function createNewLocalRepository(): LocalRepo {
  * @description The local repo acts as a simple mock for testing and similar purposes.
  */
 class LocalRepo implements Repository {
-  async getData(key: string, query?: string): Promise<Manifest[] | Record<string, unknown>[]> {
-    // Fake all records in non-production ("someotherlifecycle") lifecycleStage
-    if (key !== 'production' && !query) return dataSomeotherLifecycle;
-
-    // Fake single record from non-production ("someotherlifecycle") lifecycleStage
-    if (key !== 'production' && query)
-      return dataSomeotherLifecycle.filter((record: any) => {
-        if (record.spec.serviceName === query) return record;
-      });
-
-    // Fake single record
-    if (key === 'production' && query)
-      return dataProduction.filter((record: any) => {
-        if (record.spec.serviceName === query) return record;
-      });
-
-    // Fake all records in "production" lifecycleStage
-    return dataProduction;
+  async getData(repo: string, service?: string): Promise<Manifest[] | Record<string, unknown>[]> {
+    return testdata.filter((record: any) => {
+      if (!service && record.spec.repo === repo) return record;
+      if (record.spec.repo === repo && record.spec.name === service) return record;
+    });
   }
 
   async updateItem(manifest: Manifest): Promise<void> {

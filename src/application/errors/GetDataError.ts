@@ -5,6 +5,12 @@ export class GetDataError extends Error {
   constructor(message: string) {
     super(message);
     this.name = 'GetDataError';
+    this.message = message;
     console.error(message);
+
+    // @ts-ignore
+    this.cause = {
+      statusCode: 500
+    };
   }
 }

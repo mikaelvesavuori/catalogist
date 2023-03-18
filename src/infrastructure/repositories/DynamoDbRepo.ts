@@ -7,10 +7,8 @@ import { UpdateItemError } from '../../application/errors/UpdateItemError';
 
 import { isJsonString } from '../frameworks/isJsonString';
 
-const dynamoDb = new DynamoDBClient({
-  region: process.env.REGION || 'eu-north-1'
-});
-const TABLE_NAME = process.env.TABLE_NAME || 'catalogist';
+const dynamoDb = new DynamoDBClient({ region: process.env.REGION || '' });
+const TABLE_NAME = process.env.TABLE_NAME || '';
 
 /**
  * @description Factory function for DynamoDB repository.
@@ -26,14 +24,16 @@ class DynamoRepository implements Repository {
   /**
    * @description Get data.
    */
-  async getData(key: string, query?: string): Promise<Manifest[] | Record<string, unknown>[]> {
+  async getData(repo: string, service?: string): Promise<Manifest[] | Record<string, unknown>[]> {
     try {
-      const params = this.getParams(key, query);
+      const params = this.getParams(repo, service);
 
       // @ts-ignore
       const data = await dynamoDb.send(new QueryCommand(params));
 
       const items = data?.Items;
+      if (!items) return [];
+
       const fixedItems: Record<string, unknown>[] = [];
 
       if (items && typeof items === 'object' && items.length > 0) {
@@ -65,16 +65,16 @@ class DynamoRepository implements Repository {
   async updateItem(manifest: Manifest): Promise<void> {
     try {
       const { spec } = manifest;
-      const { lifecycleStage, serviceName } = spec;
+      const { repo, name } = spec;
 
       // Set up required fields
       const params: any = {
         TableName: TABLE_NAME,
         Item: {
-          timestamp: { S: `${Date.now().toString()}` },
-          pk: { S: lifecycleStage },
-          sk: { S: serviceName },
-          spec: { S: JSON.stringify(spec) }
+          pk: { S: repo },
+          sk: { S: name },
+          spec: { S: JSON.stringify(spec) },
+          timestamp: { S: `${Date.now().toString()}` }
         }
       };
 
@@ -95,16 +95,16 @@ class DynamoRepository implements Repository {
   /**
    * @description Helper to get the right query parameters.
    */
-  private getParams(lifecycleStage = 'production', serviceName?: string) {
-    const keyConditionExpression = serviceName ? `pk = :pk AND sk = :sk` : `pk = :pk`;
+  private getParams(repo: string, service?: string) {
+    const keyConditionExpression = service ? `pk = :pk AND sk = :sk` : `pk = :pk`;
 
-    const expressionAttributeValues = serviceName
+    const expressionAttributeValues = service
       ? {
-          ':pk': { S: lifecycleStage },
-          ':sk': { S: serviceName }
+          ':pk': { S: repo },
+          ':sk': { S: service }
         }
       : {
-          ':pk': { S: lifecycleStage }
+          ':pk': { S: repo }
         };
 
     return {

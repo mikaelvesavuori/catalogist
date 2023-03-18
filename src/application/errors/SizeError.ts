@@ -5,6 +5,12 @@ export class SizeError extends Error {
   constructor(message: string) {
     super(message);
     this.name = 'SizeError';
+    this.message = message;
     console.error(message);
+
+    // @ts-ignore
+    this.cause = {
+      statusCode: 400
+    };
   }
 }

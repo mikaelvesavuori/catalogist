@@ -1,58 +1,7 @@
 {
   "spec": {
-    "serviceType": "service",
-    "version": "1.0.0",
-    "description": "My service",
-    "serviceName": "my-service",
-    "team": "ThatAwesomeTeam",
-    "responsible": "Someguy Someguyson",
-    "system": "some-system",
-    "domain": "some-domain",
-    "tags": ["typescript", "backend"],
-    "dataSensitivity": "Public"
-  },
-  "relations": ["my-other-service"],
-  "support": {
-    "resolverGroup": "ThatAwesomeTeam"
-  },
-  "slo": [
-    {
-      "description": "Max latency must be 350ms for the 90th percentile",
-      "level": "99.9",
-      "percentile": "p90",
-      "maxLatency": 350
-    }
-  ],
-  "api": [
-    {
-      "MyProjectApi": "./api/schema.yml"
-    }
-  ],
-  "metadata": {
-    "arkitOutputFolder": "./diagrams/",
-    "sbomOutputFile": "./sbom-output.txt",
-    "typedocOutputFolder": "./typedoc-docs/"
-  },
-  "links": [
-    {
-      "url": "https://my-confluence.atlassian.net/wiki/spaces/DEV/pages/123456789/",
-      "title": "Confluence documentation",
-      "icon": "documentation"
-    },
-    {
-      "title": "Jira backlog",
-      "url": "https://admin.example-org.com",
-      "icon": "backlog"
-    },
-    {
-      "title": "CloudWatch Dashboard",
-      "url": "https://region.signin.aws.amazon.com",
-      "icon": "dashboard"
-    },
-    {
-      "title": "Disaster Recovery Plan",
-      "url": "https://my-confluence.atlassian.net/wiki/spaces/DEV/pages/123456789/DisasterRecoveryPlan",
-      "icon": "recovery"
-    }
-  ]
+    "repo": "someorg/somerepo",
+    "name": "my-api",
+    "description": "My API"
+  }
 }
