@@ -1,3 +1,4 @@
+import { describe, test, expect } from 'vitest';
 import { APIGatewayProxyEventV2 } from 'aws-lambda';
 
 import { getRecord } from '../../src/usecases/getRecord';

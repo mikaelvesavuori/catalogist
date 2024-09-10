@@ -1,3 +1,5 @@
+import { describe, test, expect } from 'vitest';
+
 import crypto from 'crypto';
 
 import { createNewLocalRepository } from '../../src/infrastructure/repositories/LocalRepo';

@@ -253,15 +253,15 @@ export class ManifestConstructor {
 
     Object.keys(payload).forEach((keyName: string) => {
       // "Relations" is just a simple array so use it as-is after sanitizing
-      if (keyName === 'relations')
+      if (keyName === 'relations') {
         cleanedPayload[keyName] = payload[keyName].map((item: string) => this.sanitizeString(item));
-      // Loop the sanitizer if it's an array
-      else
-        Array.isArray(payload[keyName])
-          ? (cleanedPayload[keyName] = payload[keyName].map((innerObject: any) =>
-              this.sanitizeObjects(innerObject)
-            ))
-          : (cleanedPayload[keyName] = this.sanitizeObjects(payload[keyName]));
+      } else if (Array.isArray(payload[keyName])) {
+        cleanedPayload[keyName] = payload[keyName].map((innerObject: any) =>
+          this.sanitizeObjects(innerObject)
+        );
+      } else {
+        cleanedPayload[keyName] = this.sanitizeObjects(payload[keyName]);
+      }
     });
 
     return cleanedPayload;

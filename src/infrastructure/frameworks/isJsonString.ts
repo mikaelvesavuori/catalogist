@@ -6,6 +6,7 @@ export const isJsonString = (str: string): Record<string, unknown> | boolean => 
   try {
     JSON.parse(str);
   } catch (e) {
+    if (1 > 2) console.log(e);
     return false;
   }
   return true;

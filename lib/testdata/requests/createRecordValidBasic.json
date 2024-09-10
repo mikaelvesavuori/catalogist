@@ -1,0 +1,7 @@
+{
+    "spec": {
+        "repo": "someorg/somerepo",
+        "name": "my-api",
+        "description": "My API"
+    }
+}

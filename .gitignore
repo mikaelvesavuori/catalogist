@@ -6,6 +6,7 @@ build/
 .esbuild/
 
 # Files generated from tests
+coverage/
 jest-coverage/
 **/jest-coverage/**
 

@@ -1,13 +1,14 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
+    "module": "ES2022",
+    "allowSyntheticDefaultImports": true,
     "moduleResolution": "node",
-    "outDir": "build",
-    "target": "es2021",
-    "lib": ["es2021"],
+    "outDir": "lib",
+    "target": "ES2022",
+    "lib": ["ES2022"],
     "declaration": true,
     "esModuleInterop": true,
-    "importHelpers": true,
+    "importHelpers": false,
     "forceConsistentCasingInFileNames": true,
     "noEmitOnError": true,
     "noFallthroughCasesInSwitch": true,
@@ -17,8 +18,14 @@
     "resolveJsonModule": true,
     "sourceMap": true,
     "strict": true,
-    "strictFunctionTypes": true
+    "strictFunctionTypes": true,
+    "skipLibCheck": true
   },
-  "include": ["./src/**/*.ts", "./tests/**/*.ts"],
-  "exclude": ["./node_modules/", "./build/"]
+  "include": [
+    "./src/**/*.ts",
+    "./tests/**/*.ts",
+    "__finished__/tests/unit/greet.test.ts",
+    "__finished__/tests/unit/swapi.test.ts"
+  ],
+  "exclude": ["./node_modules/", "./lib/"]
 }

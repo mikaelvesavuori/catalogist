@@ -1,3 +1,5 @@
+import { describe, test, expect } from 'vitest';
+
 import { getQueryStringParams } from '../../src/infrastructure/frameworks/getQueryStringParams';
 
 describe('Success cases', () => {

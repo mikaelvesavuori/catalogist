@@ -1,3 +1,5 @@
+import { describe, test, expect } from 'vitest';
+
 import { isJsonString } from '../../src/infrastructure/frameworks/isJsonString';
 
 describe('Success cases', () => {
