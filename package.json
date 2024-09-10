@@ -1,7 +1,7 @@
 {
   "name": "catalogist",
   "description": "Catalogist is the easy way to catalog and make your software and (micro)services visible to your organization in a lightweight and developer-friendly way.",
-  "version": "3.0.0",
+  "version": "3.1.0",
   "author": "Mikael Vesavuori",
   "license": "MIT",
   "repository": {
