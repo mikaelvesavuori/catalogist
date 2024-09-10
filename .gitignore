@@ -4,6 +4,7 @@ node_modules/
 build/
 .dccache
 .esbuild/
+lib/
 
 # Files generated from tests
 coverage/
