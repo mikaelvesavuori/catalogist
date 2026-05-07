@@ -309,7 +309,7 @@ export class ManifestConstructor {
     const maxLength = isValue ? 500 : 50;
 
     const regexKeys = new RegExp(/[^a-z0-9@åäöøáéíóúñü\-_]/gim);
-    const regexValues = new RegExp(/[^a-z0-9()\[\]\/\:åäöøáéíóúñü\.\s\-_]/gim);
+    const regexValues = new RegExp(/[^a-z0-9()\[\]\/\:åäöøáéíóúñü\.\s\-_?&#=]/gim);
 
     return (isValue ? value.replace(regexValues, '') : value.replace(regexKeys, ''))
       .trim()
