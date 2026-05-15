@@ -278,13 +278,14 @@ export class ManifestConstructor {
       const sanitizedKey = this.sanitizeString(objKey);
       const sanitizedValue = (() => {
         const value = Object.values(item)[index] as unknown as string | number;
+        const isUrlValue = sanitizedKey === 'url' || sanitizedKey === 'schemaPath';
 
         if (laxKeys.includes(sanitizedKey.toString()))
           return this.sanitizeLaxString(value as string);
 
         if (Array.isArray(value))
           return value.map((arrValue: string) => this.sanitizeString(arrValue, true));
-        else return this.sanitizeString(value, true);
+        else return this.sanitizeString(value, true, isUrlValue);
       })();
       sanitizedObject[sanitizedKey] = sanitizedValue;
     });
@@ -304,14 +305,16 @@ export class ManifestConstructor {
    * @description String sanitizer utility to cap length and allow only certain characters.
    * @see https://stackoverflow.com/questions/23187013/is-there-a-better-way-to-sanitize-input-with-javascript
    */
-  private sanitizeString(value: string | number, isValue = false) {
+  private sanitizeString(value: string | number, isValue = false, isUrlValue = false) {
     if (typeof value === 'number') return value;
     const maxLength = isValue ? 500 : 50;
 
     const regexKeys = new RegExp(/[^a-z0-9@åäöøáéíóúñü\-_]/gim);
-    const regexValues = new RegExp(/[^a-z0-9()\[\]\/\:åäöøáéíóúñü\.\s\-_?&#=]/gim);
+    const regexValues = new RegExp(/[^a-z0-9()\[\]\/\:åäöøáéíóúñü\.\s\-_]/gim);
+    const regexUrlValues = new RegExp(/[^a-z0-9\-._~:\/?#\[\]@!$&'()*+,;=%]/gim);
+    const regex = isUrlValue ? regexUrlValues : regexValues;
 
-    return (isValue ? value.replace(regexValues, '') : value.replace(regexKeys, ''))
+    return (isValue ? value.replace(regex, '') : value.replace(regexKeys, ''))
       .trim()
       .substring(0, maxLength);
   }

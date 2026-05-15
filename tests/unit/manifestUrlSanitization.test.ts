@@ -21,11 +21,9 @@ describe('URL Sanitization in Manifest', () => {
       };
 
       const manifest = createNewManifest(payload);
-      
+
       expect(manifest.links).toBeDefined();
-      expect(manifest.links?.[0].url).toContain('?');
-      expect(manifest.links?.[0].url).toContain('=');
-      expect(manifest.links?.[0].url).toContain('&');
+      expect(manifest.links?.[0].url).toBe('https://example.com/docs?version=v1&lang=en');
     });
 
     test('It should preserve URLs with hash anchors', () => {
@@ -45,9 +43,9 @@ describe('URL Sanitization in Manifest', () => {
       };
 
       const manifest = createNewManifest(payload);
-      
+
       expect(manifest.links).toBeDefined();
-      expect(manifest.links?.[0].url).toContain('#');
+      expect(manifest.links?.[0].url).toBe('https://example.com/docs#section-api');
     });
 
     test('It should preserve complex URLs with both query parameters and hash anchors', () => {
@@ -67,11 +65,11 @@ describe('URL Sanitization in Manifest', () => {
       };
 
       const manifest = createNewManifest(payload);
-      
+
       expect(manifest.links).toBeDefined();
-      expect(manifest.links?.[0].url).toContain('?');
-      expect(manifest.links?.[0].url).toContain('=');
-      expect(manifest.links?.[0].url).toContain('#');
+      expect(manifest.links?.[0].url).toBe(
+        'https://confluence.example.com/wiki/spaces/DOCS/pages/12345?version=1#section'
+      );
     });
 
     test('It should preserve Atlassian confluence URLs', () => {
@@ -91,9 +89,11 @@ describe('URL Sanitization in Manifest', () => {
       };
 
       const manifest = createNewManifest(payload);
-      
+
       expect(manifest.links).toBeDefined();
-      expect(manifest.links?.[0].url).toBe('https://my-confluence.atlassian.net/wiki/spaces/DEV/pages/123456789/');
+      expect(manifest.links?.[0].url).toBe(
+        'https://my-confluence.atlassian.net/wiki/spaces/DEV/pages/123456789/'
+      );
     });
 
     test('It should preserve APIs with query parameter schema paths', () => {
@@ -112,10 +112,34 @@ describe('URL Sanitization in Manifest', () => {
       };
 
       const manifest = createNewManifest(payload);
-      
+
       expect(manifest.api).toBeDefined();
-      expect(manifest.api?.[0].schemaPath).toContain('?');
-      expect(manifest.api?.[0].schemaPath).toContain('&');
+      expect(manifest.api?.[0].schemaPath).toBe(
+        'https://example.com/schema/openapi.json?version=3.0&format=yaml'
+      );
+    });
+
+    test('It should preserve encoded URLs and plus signs in query parameters', () => {
+      const payload = {
+        spec: {
+          repo: 'test/repo',
+          name: 'test-service',
+          description: 'Test Service'
+        },
+        links: [
+          {
+            title: 'Redirect',
+            url: 'https://example.com/docs?redirect=https%3A%2F%2Fother.example%2Fx+y',
+            icon: 'documentation'
+          }
+        ]
+      };
+
+      const manifest = createNewManifest(payload);
+
+      expect(manifest.links?.[0].url).toBe(
+        'https://example.com/docs?redirect=https%3A%2F%2Fother.example%2Fx+y'
+      );
     });
   });
 
@@ -137,7 +161,7 @@ describe('URL Sanitization in Manifest', () => {
       };
 
       const manifest = createNewManifest(payload);
-      
+
       expect(manifest.links?.[0].url).toContain('page=1');
       expect(manifest.links?.[0].url).toContain('section=api');
       expect(manifest.links?.[0].url).toContain('version=v2');
@@ -145,7 +169,7 @@ describe('URL Sanitization in Manifest', () => {
 
     test('It should respect maximum URL length after sanitization', () => {
       const veryLongUrl = 'https://example.com/' + 'a'.repeat(500) + '?param=value';
-      
+
       const payload = {
         spec: {
           repo: 'test/repo',
@@ -162,9 +186,23 @@ describe('URL Sanitization in Manifest', () => {
       };
 
       const manifest = createNewManifest(payload);
-      
+
       // Should be capped at 500 characters for values
       expect(manifest.links?.[0].url.length).toBeLessThanOrEqual(500);
+    });
+
+    test('It should not preserve URL-only characters in regular values', () => {
+      const payload = {
+        spec: {
+          repo: 'test/repo',
+          name: 'test-service?debug=true&section=api#anchor',
+          description: 'Test Service'
+        }
+      };
+
+      const manifest = createNewManifest(payload);
+
+      expect(manifest.spec.name).toBe('test-servicedebugtruesectionapianchor');
     });
   });
 
@@ -186,7 +224,7 @@ describe('URL Sanitization in Manifest', () => {
       };
 
       const manifest = createNewManifest(payload);
-      
+
       expect(manifest.links?.[0].url).not.toContain('<');
       expect(manifest.links?.[0].url).not.toContain('>');
     });
