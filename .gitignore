@@ -5,6 +5,7 @@ build/
 .dccache
 .esbuild/
 lib/
+docs/
 
 # Files generated from tests
 coverage/
